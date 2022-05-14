@@ -1,10 +1,9 @@
 ﻿using TrackerLibrary.DAL;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
 	public class InitializeConnections
 	{
-		// Call the method initializeConnection in GlobalConfig file
 		public void InitializeConnection()
 		{
 			GlobalConfig.InitializeConnection(DatabaseType.Sql);

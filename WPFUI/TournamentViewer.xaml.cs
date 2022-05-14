@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using TrackerLibrary.BUL;
+using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI
@@ -24,15 +24,17 @@ namespace WPFUI
         }
         
         private TournamentModel tournament;
-		// Binding source will binding directly into binding list
 		BindingList<int> rounds = new BindingList<int>();
 		BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
-
 		private void LoadFormData()
 		{
 			lbTournamentName.Content = tournament.TournamentName;
+			
+			ckbUnplayedOnly.Visibility = tournament.IsCompleted ? Visibility.Hidden : Visibility.Visible;
+			btnScore.IsEnabled = tournament.IsCompleted ? false : true;
+			txtTeamOneScore.IsEnabled = tournament.IsCompleted ? false : true;
+			txtTeamTwoScore.IsEnabled = tournament.IsCompleted ? false : true;
 		}
-
 		private void LoadRounds()
 		{
 			rounds.Clear();
@@ -51,23 +53,17 @@ namespace WPFUI
 
 			LoadMatchupsList(1);
 		}
-
 		private void WireUpLists()
 		{
-		
 			cbRounds.ItemsSource = rounds;	
 			lstMatchup.ItemsSource = selectedMatchups;
 			lstMatchup.DisplayMemberPath = "DisplayName";
 
 		}
-
-		
-
 		private void cbRounds_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			LoadMatchupsList((int)cbRounds.SelectedItem);
 		}
-
 		private void LoadMatchupsList(int round)
 		{
 			
@@ -92,9 +88,7 @@ namespace WPFUI
 			}
 
 			DisplayMatchupInfo();
-			
 		}
-
 		private void DisplayMatchupInfo()
 		{
 			Visibility isVisible = selectedMatchups.Count > 0 ? Visibility.Visible : Visibility.Hidden;
@@ -121,13 +115,12 @@ namespace WPFUI
 							lbteamOneName.Content = m.Entries[0].TeamCompeting.TeamName;
 							txtTeamOneScore.Text = m.Entries[0].Score.ToString();
 
-							// To fix the problem issue with one team in "BYES TEAMS"
-							lbteamTwoName.Content = "<byes>";
+							lbteamTwoName.Content = "<не найдено>";
 							txtTeamTwoScore.Text = "0";
 						}
 						else
 						{
-							lbteamOneName.Content = "Not yet set";
+							lbteamOneName.Content = "Не найдено";
 							txtTeamOneScore.Text = "";
 						}
 					}
@@ -141,131 +134,126 @@ namespace WPFUI
 						}
 						else
 						{
-							lbteamTwoName.Content = "Not yet set";
+							lbteamTwoName.Content = "Не найдено";
 							txtTeamTwoScore.Text = "";
 						}
 					}
 				}
 			}
-			
 		}
-
 		private void lstMatchup_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
 		}
-
 		private void ckbUnplayedOnly_CheckedChanged(object sender, EventArgs e)
 		{
 			LoadMatchupsList((int)cbRounds.SelectedItem);
 		}
 
-		private string ValidateData()
+		private List<string> ValidateData()
 		{
-			string output = "";
-			double teamOneScore = 0;
-			double teamTwoScore = 0;
+			List<string> errorMessages = new List<string>();
+			double teamOneScore;
+			double teamTwoScore;
 			bool scoreOneValid = double.TryParse(txtTeamOneScore.Text, out teamOneScore);
 			bool scoreTwoValid = double.TryParse(txtTeamTwoScore.Text, out teamTwoScore);
 
 			if(!scoreOneValid)
 			{
-				output = "The score One value is not a valid number";
+				errorMessages.Add("Очки первой команды должны быть числом");
 			}
 			else if(!scoreTwoValid)
 			{
-				output = "The score Two value is not a valid number";
+				errorMessages.Add("Очки второй команды должны быть числом");
 			}
 
 			else if(teamOneScore == 0 && teamTwoScore == 0)
 			{
-				output = "You did not enter a score for either team";
+				errorMessages.Add("Не выбран победитель");
 			}
 			else if(teamOneScore == teamTwoScore)
 			{
-				output = "We do not allowed ties in this application";
+				errorMessages.Add("В текущей версии приложения не может быть ничьей");
 			}
-			return output;
-		}
 
+			return errorMessages;
+		}
 		private void btnScore_Click(object sender, EventArgs e)
 		{
-			string errorMessage = ValidateData();
-			if( errorMessage.Length > 0)
+			List<string> errorMessages = ValidateData();
+			if( errorMessages.Count == 0)
 			{
-				MessageBox.Show($"Input error : {errorMessage}");
-				return;
-			}
-			MatchupModel m = (MatchupModel)lstMatchup.SelectedItem;
-			double teamOneScore = 0;
-			double teamTwoScore = 0;
-			for (int i = 0; i < m.Entries.Count; i++)
-			{
-				if (i == 0)
+				MatchupModel m = (MatchupModel)lstMatchup.SelectedItem;
+				double teamOneScore;
+				double teamTwoScore;
+				for (int i = 0; i < m.Entries.Count; i++)
 				{
-					if (m.Entries[0].TeamCompeting != null)
+					if (i == 0)
 					{
-						lbteamOneName.Content = m.Entries[0].TeamCompeting.TeamName;
-
-						bool scoreValid = double.TryParse(txtTeamOneScore.Text, out teamOneScore);
-
-						if(scoreValid)
+						if (m.Entries[0].TeamCompeting != null)
 						{
-							m.Entries[0].Score = teamOneScore;
-						}
-						else
-						{
-							MessageBox.Show("Please enter a valid score for team 1");
-							return;
-						}
+							lbteamOneName.Content = m.Entries[0].TeamCompeting.TeamName;
+
+							bool scoreValid = double.TryParse(txtTeamOneScore.Text, out teamOneScore);
+
+							if(scoreValid)
+							{
+								m.Entries[0].Score = teamOneScore;
+							}
+							else
+							{
+								MessageBox.Show("Пожалуйста, введите валидные данные для очков 1 команды");
+								return;
+							}
 						
+						}
 					}
-				}
 
-				if (i == 1)
-				{
-					if (m.Entries[1].TeamCompeting != null)
+					if (i == 1)
 					{
-						lbteamTwoName.Content = m.Entries[1].TeamCompeting.TeamName;
-
-						bool scoreValid = double.TryParse(txtTeamTwoScore.Text, out teamTwoScore);
-
-						if (scoreValid)
+						if (m.Entries[1].TeamCompeting != null)
 						{
-							m.Entries[1].Score = teamTwoScore;
-						}
-						else
-						{
-							MessageBox.Show("Please enter a valid score for team 2");
-							return;
+							lbteamTwoName.Content = m.Entries[1].TeamCompeting.TeamName;
+
+							bool scoreValid = double.TryParse(txtTeamTwoScore.Text, out teamTwoScore);
+
+							if (scoreValid)
+							{
+								m.Entries[1].Score = teamTwoScore;
+							}
+							else
+							{
+								MessageBox.Show("Пожалуйста, введите валидные данные для очков 2 команды");
+								return;
+							}
 						}
 					}
-					
 				}
-			}
+				
+				try
+				{
+					TournamentLogic.UpdateTournamentResults(tournament);
+				}
+				catch(Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+					return;
+				}
 
-			try
+				LoadMatchupsList((int)cbRounds.SelectedItem);
+
+				UpdateMatchupModel(m);
+			}
+			else
 			{
-				TournamentLogic.UpdateTournamentResults(tournament);
+				MessageBox.Show(String.Join("\n", errorMessages));
 			}
-			catch(Exception ex)
-			{
-				MessageBox.Show($"The application had the following error : {ex.Message}");
-				return;
-			}
-
-			LoadMatchupsList((int)cbRounds.SelectedItem);
-
-			//UpdateMatchupModel(m);
 		}
-
 		private void UpdateMatchupModel(MatchupModel m)
 		{
-			/*TournamentViewerFormHandling handling = new TournamentViewerFormHandling();
+			TournamentViewerFormHandling handling = new TournamentViewerFormHandling();
 			handling.UpdateMatchupModel(m);
-			LoadMatchupsList((int)cbRounds.SelectedItem);*/
-
-			
+			LoadMatchupsList((int)cbRounds.SelectedItem);
 		}
     }
 }

@@ -5,7 +5,8 @@ GO
   CREATE TABLE Tournaments (
     id INT IDENTITY PRIMARY KEY,
     tournamentName NVARCHAR(100) NOT NULL,
-    entryFee FLOAT NOT NULL DEFAULT '0'
+    entryFee FLOAT NOT NULL DEFAULT '0',
+    isCompleted BIT DEFAULT 0
   )
 GO
   CREATE TABLE Teams (
@@ -241,19 +242,29 @@ WHERE
   matchupID = @matchupID
 END
 GO
-  --------------------------- ------------
   CREATE PROCEDURE PROC_insertTournament @tournamentName NVARCHAR(100),
   @entryFee FLOAT,
+  @isCompleted BIT = 0,
   @id INT = 0 OUTPUT AS BEGIN
 SET
   NOCOUNT ON;
 
 INSERT
-  Tournaments(tournamentName, entryFee)
+  Tournaments(tournamentName, entryFee, isCompleted)
 VALUES
-  (@tournamentName, @entryFee)
+  (@tournamentName, @entryFee, @isCompleted)
 SELECT
   @id = SCOPE_IDENTITY()
+END
+GO
+  CREATE PROCEDURE PROC_completeTournament @id INT AS BEGIN
+UPDATE
+  Tournaments
+SET
+  isCompleted = 1
+WHERE
+  id = @id;
+
 END
 GO
   CREATE PROCEDURE PROC_insert_TournamentEntries @tournamentID INT,

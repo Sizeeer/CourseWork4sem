@@ -4,27 +4,14 @@ using System.IO;
 using System.Linq;
 using TrackerLibrary.DTO;
 
-// Load the textFile (done)
-// Convert the text to List<prizeModel> (done)
-// Find the ID
-// Add the new record with the new ID
-// Convert the prizes to list<string>
-// Save the list<string> to the text files
-
 namespace TrackerLibrary.DAL
 {
-	// The reason why I make this seperate class is just to use static major
 	public static class TextConnectorProcessor
 	{
-		// Extention method
 		public static string FullFilePath(this string fileName)
 		{
-			// Use " \\ " in c# to recognized the path : 
-			// C:\TournamentMangagement\TextFile.csv
 			return $"{ConfigurationManager.AppSettings["filePath"] }\\{fileName}";
 		}
-
-		// A list of string is represent the full line of text file
 		public static List<string>LoadFile(this string file)
 		{
 			if(!File.Exists(file))
@@ -33,7 +20,6 @@ namespace TrackerLibrary.DAL
 			}
 			return File.ReadAllLines(file).ToList();
 		}
-
 		public static List<PrizeModel> ConvertToPrizeModels(this List<string> lines)
 		{
 			List<PrizeModel> output = new List<PrizeModel>();
@@ -50,9 +36,7 @@ namespace TrackerLibrary.DAL
 				output.Add(p);
 			}
 			return output;
-			
 		}
-
 		public static List<PersonModel> ConvertToPeopleModels(this List<string> lines)
 		{
 			List<PersonModel> output = new List<PersonModel>();
@@ -69,13 +53,9 @@ namespace TrackerLibrary.DAL
 				output.Add(p);
 			}
 			return output;
-
 		}
-
 		public static List<TeamModel> ConvertToTeamModels(this List<string> lines)
 		{
-			// id, team name, lists of id seperated by the pipe
-			// 3, Tim's Team, 1|2|3|
 			List<TeamModel> output = new List<TeamModel>();
 			List<PersonModel> people = GlobalConfig.PeopleFile.FullFilePath().LoadFile().ConvertToPeopleModels();
 
@@ -94,51 +74,40 @@ namespace TrackerLibrary.DAL
 				output.Add(t);
 			}
 			return output;
-
 		}
 
 		public static List<TournamentModel>ConvertToTournamentModels(this List<string>lines)
 		{
-			// id = 0
-			// Tourament = 1
-			// EntryFee = 2
-			// Entered Team = 3
-			// Prizes = 4
-			// Rounds = 5
-
-			// id, TournamentName, EntryFee, (id|id|id - EnteredTeams), (id|id|id - Prizes), (Rounds id^id^id)
 			List<TournamentModel> output = new List<TournamentModel>();
 			List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
 			List<PrizeModel> prizes = GlobalConfig.PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 			foreach(string line in lines)
 			{
 				string[] cols = line.Split(',');
+				
 				TournamentModel tm = new TournamentModel();
+				
 				tm.Id = int.Parse(cols[0]);
 				tm.TournamentName = cols[1];
 				tm.EntryFee = float.Parse(cols[2]);
+				
 				string[] teamIds = cols[3].Split('|');
+				
 				foreach(string id in teamIds)
 				{
-					//t.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First());
 					tm.EnteredTeams.Add(teams.Where(x => x.Id == int.Parse(id)).First());
 			
 				}
 				string []prizeIds = cols[4].Split('|');
+				
 				foreach (string id in prizeIds)
 				{
-					//t.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First());
 					tm.Prizes.Add(prizes.Where(x => x.Id == int.Parse(id)).First());
-				
 				}
 				output.Add(tm);
 			}
 			return output;
-			// TODO - capture round information
 		}
-
-
-
 		public static void SaveToPrizesFile(this List<PrizeModel>models)
 		{
 			List<string> lines = new List<string>();
@@ -149,9 +118,6 @@ namespace TrackerLibrary.DAL
 			}
 			File.WriteAllLines(GlobalConfig.PrizesFile.FullFilePath(), lines);
 		}
-
-		
-
 		public static void SaveToPeopleFile(this List<PersonModel> models)
 		{
 			List<string> lines = new List<string>();
@@ -162,7 +128,6 @@ namespace TrackerLibrary.DAL
 			}
 			File.WriteAllLines(GlobalConfig.PeopleFile.FullFilePath(), lines);
 		}
-
 		public static void SaveToTeamFile(this List<TeamModel> models)
 		{
 			List<string> lines = new List<string>();
@@ -173,42 +138,23 @@ namespace TrackerLibrary.DAL
 			}
 			File.WriteAllLines(GlobalConfig.TeamFile.FullFilePath(), lines);
 		}
-
 		public static void SaveToTournamentFile(this List<TournamentModel> models)
 		{
-			// id = 0
-			// Tourament = 1
-			// EntryFee = 2
-			// Entered Team = 3
-			// Prizes = 4
-			// Rounds = 5
-
-			// id, TournamentName, EntryFee, (id|id|id - EnteredTeams), (id|id|id - Prizes), (Rounds id^id^id)
 			List<string> lines = new List<string>();
 
 			foreach (TournamentModel tm in models)
 			{
 				lines.Add($"{tm.Id},{tm.TournamentName}, {tm.EntryFee}, {ConvertTeamListToString(tm.EnteredTeams)}, " +
-					$"{ConvertPrizeListToString(tm.Prizes)}, {ConvertRoundListToString(tm.Rounds)}");
+					$"{ConvertPrizeListToString(tm.Prizes)}, {ConvertRoundListToString(tm.Rounds)}, {tm.IsCompleted}");
 			}
 			File.WriteAllLines(GlobalConfig.TournamentFile.FullFilePath(), lines);
 		}
-
 		public static void SaveRoundsToFile(this TournamentModel models, string matchupFile, string matchupEntryFile)
 		{
-			// Loop through each round
-			// Loop through each matchup
-			// Get the ID for the new matchup and save the record 
-			// Loop through each entry, get the ID and save it
-
 			foreach (List<MatchupModel> round in models.Rounds)
 			{
 				foreach (MatchupModel matchup in round)
 				{
-					// Loop all of the matchups from file 
-					// Get the top id and add one
-					// store the id
-					// save the matchup record 
 					matchup.SaveMatchupToFile(matchupFile ,matchupEntryFile);
 
 					foreach (MatchupEntryModel entry in matchup.Entries)
@@ -218,7 +164,6 @@ namespace TrackerLibrary.DAL
 				}
 			}
 		}
-
 		private static void SaveMatchupToFile(this MatchupModel matchup, string matchupFile, string matchupEntryFile)
 		{
 			foreach (MatchupEntryModel entry in matchup.Entries)
@@ -226,12 +171,10 @@ namespace TrackerLibrary.DAL
 				/*entry.SaveEntryToFile(matchupFile, entryFile);*/
 			}
 		}
-
 		private static void SaveEntryToFile(this MatchupModel matchup, string matchupEntryFile)
 		{
 
 		}
-
 		private static string ConvertPeopleListToString(List<PersonModel>people)
 		{
 			string output = "";
@@ -251,18 +194,15 @@ namespace TrackerLibrary.DAL
 			output = output.Substring(0, output.Length - 1);
 			return output;
 		}
-
 		private static string ConvertTeamListToString(List<TeamModel> teams)
 		{
 			string output = "";
 
-			// prevent the crash of output lenght	
 			if (teams.Count == 0)
 			{
 				return "";
 			}
 
-			// 2|5
 			foreach (TeamModel t in teams)
 			{
 				output += $"{t.Id}|";
@@ -271,18 +211,15 @@ namespace TrackerLibrary.DAL
 			output = output.Substring(0, output.Length - 1);
 			return output;
 		}
-
 		private static string ConvertPrizeListToString(List<PrizeModel> prizes)
 		{
 			string output = "";
 
-			// prevent the crash of output lenght	
 			if (prizes.Count == 0)
 			{
 				return "";
 			}
 
-			// 2|5
 			foreach (PrizeModel p in prizes)
 			{
 				output += $"{p.Id}|";
@@ -291,18 +228,15 @@ namespace TrackerLibrary.DAL
 			output = output.Substring(0, output.Length - 1);
 			return output;
 		}
-
 		private static string ConvertRoundListToString(List<List<MatchupModel>> rounds)
 		{
 			string output = "";
 
-			// prevent the crash of output lenght	
 			if (rounds.Count == 0)
 			{
 				return "";
 			}
 
-			// 2|5
 			foreach (List<MatchupModel> r in rounds)
 			{
 				output += $"{ConvertMatchupListToString(r)}|";
@@ -311,18 +245,15 @@ namespace TrackerLibrary.DAL
 			output = output.Substring(0, output.Length - 1);
 			return output;
 		}
-
 		private static string ConvertMatchupListToString(List<MatchupModel> matchups)
 		{
 			string output = "";
 
-			// prevent the crash of output lenght	
 			if (matchups.Count == 0)
 			{
 				return "";
 			}
 
-			// 2|5
 			foreach (MatchupModel m in matchups)
 			{
 				output += $"{m.Id}|";
@@ -331,7 +262,6 @@ namespace TrackerLibrary.DAL
 			output = output.Substring(0, output.Length - 1);
 			return output;
 		}
-		
 		private static TeamModel LookupTeamById(int id)
 		{
 			List<string> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile();
@@ -350,7 +280,6 @@ namespace TrackerLibrary.DAL
 
 			return null;
 		}
-		
 		private static MatchupModel LookupMatchupById(int id)
 		{
 			List<string> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile();
@@ -369,7 +298,6 @@ namespace TrackerLibrary.DAL
 
 			return null;
 		}
-		
 		public static List<MatchupEntryModel> ConvertToMatchupEntryModels(this List<string> lines)
 		{
 			// Id = 0, TeamCompeting = 1, Score = 2, ParentMatchup = 3
@@ -409,7 +337,6 @@ namespace TrackerLibrary.DAL
 
 			return output;
 		}
-		
 		private static string ConvertMatchupEntryListToString(List<MatchupEntryModel> entries)
 		{
 			string output = string.Empty;
@@ -428,7 +355,6 @@ namespace TrackerLibrary.DAL
 
 			return output.Trim('|');
 		}
-		
 		private static List<MatchupEntryModel> ConvertStingToMatchupEntryModels(string input)
 		{
 			string[] ids = input.Split('|');
@@ -453,10 +379,8 @@ namespace TrackerLibrary.DAL
 
 			return output;
 		}
-		
 		public static List<MatchupModel> ConvertToMatchupModels(this List<string> lines)
 		{
-			// Id = 0, Entries = 1(pipe delimited by Id), Winner = 2, MatchupRound = 3
 			List<MatchupModel> output = new List<MatchupModel>();
 
 			foreach (string line in lines)
@@ -484,7 +408,6 @@ namespace TrackerLibrary.DAL
 
 			return output;
 		}
-		
 		public static void UpdateEntryToFile(this MatchupEntryModel entry)
 		{
 			List<MatchupEntryModel> entries = GlobalConfig.MatchupEntryFile.FullFilePath().LoadFile().ConvertToMatchupEntryModels();
@@ -523,7 +446,6 @@ namespace TrackerLibrary.DAL
 
 			File.WriteAllLines(GlobalConfig.MatchupEntryFile.FullFilePath(), lines);
 		}
-		
 		public static void UpdateMatchupToFile(this MatchupModel matchup)
 		{
 			List<MatchupModel> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile().ConvertToMatchupModels();

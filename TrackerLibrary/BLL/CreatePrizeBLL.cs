@@ -1,9 +1,9 @@
 ﻿using TrackerLibrary.DAL;
 using TrackerLibrary.DTO;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
-    public class CreatePrizeBUL
+    public class CreatePrizeBLL
     {
         public PrizeModel CreatePrize(string placeName, int placeNumber, decimal prizeAmount, float prizePercentage)
 		{
@@ -13,10 +13,8 @@ namespace TrackerLibrary.BUL
             model.PrizeAmount = prizeAmount;
             model.PrizePercentage = prizePercentage;
 
-
             GlobalConfig.Connection.CreatePrize(model);
             return model;
         }
-
     }
 }

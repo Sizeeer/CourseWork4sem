@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TrackerLibrary.BUL;
+using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI

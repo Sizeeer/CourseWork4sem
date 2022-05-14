@@ -2,17 +2,15 @@
 using System.Net.Mail;
 using TrackerLibrary.DAL;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
 	public static class EmailLogic
 	{
 		public static void SendEmail(List<string> to, List<string> bcc, string subject, string body)
 		{
-			// display name
 			MailAddress fromMailAddress = new MailAddress(GlobalConfig.AppKeyLookup("senderEmail"), GlobalConfig.AppKeyLookup("senderDisplayName"));
 
 			MailMessage mail = new MailMessage();
-			// add each address
 
 			foreach (string email in to)
 			{
@@ -32,7 +30,6 @@ namespace TrackerLibrary.BUL
 
 			client.Send(mail);
 		}
-
 		public static void SendEmail(string to, string subject, string body)
 		{
 			SendEmail(new List<string> { to }, new List<string>() , subject, body);

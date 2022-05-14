@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TrackerLibrary.BUL;
+using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI
 {
-    public partial class CreateTournamentDashboard : Window
+    public partial class CreateTournamentDashboard : Window, ITournamentRequester
     {
         public CreateTournamentDashboard()
         {
@@ -26,12 +26,12 @@ namespace WPFUI
 
             cbLoadExistingTournament.ItemsSource = null;
             cbLoadExistingTournament.ItemsSource = _tournaments;
-            cbLoadExistingTournament.DisplayMemberPath = "tournamentName";
+            cbLoadExistingTournament.DisplayMemberPath = "TournamentName";
         }
 
         private void btnCreateTournament_Click(object sender, EventArgs e)
         {
-            CreateTournament frm = new CreateTournament();
+            CreateTournament frm = new CreateTournament(this);
             frm.Show();
         }
 
@@ -48,6 +48,11 @@ namespace WPFUI
                 MessageBox.Show("Перед загрузкой выберите нужный турнир");
             }
 			
+        }
+
+        public void TournamentComplete()
+        {
+            WireUpLists();
         }
     }
 }

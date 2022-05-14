@@ -1,14 +1,18 @@
 ﻿using TrackerLibrary.DAL;
 using TrackerLibrary.DTO;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
 	public class TournamentViewerFormHandling
 	{
-		// Update a matchup (Score, winner, parent matchup)
 		public void UpdateMatchupModel(MatchupModel m)
 		{
 			GlobalConfig.Connection.UpdateMatchup(m);
+		}
+
+		public void CompleteTournament(TournamentModel m)
+		{
+			GlobalConfig.Connection.CompleteTournament(m);
 		}
 	}
 }

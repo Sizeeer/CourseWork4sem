@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TrackerLibrary.BUL;
+using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI
@@ -40,8 +40,8 @@ namespace WPFUI
         	decimal prizeAmount = decimal.Parse(txtPrizeAmount.Text);
         	float prizePercentage = float.Parse(txtPrizePercentage.Text);
 
-        	CreatePrizeBUL createPrizeBUL = new CreatePrizeBUL();
-        	PrizeModel p = createPrizeBUL.CreatePrize(placeName, placeNumber, prizeAmount, prizePercentage);
+        	CreatePrizeBLL createPrizeBll = new CreatePrizeBLL();
+        	PrizeModel p = createPrizeBll.CreatePrize(placeName, placeNumber, prizeAmount, prizePercentage);
 
         	callingForm.PrizeComplete(p);
 
@@ -71,12 +71,12 @@ namespace WPFUI
         	bool prizeAmountValid = decimal.TryParse(txtPrizeAmount.Text, out prizeAmount);
         	bool prizePercentageValid = int.TryParse(txtPrizePercentage.Text, out prizePercentage);
 
-        	if(!prizeAmountValid || !prizePercentageValid)
+            if(!prizeAmountValid || !prizePercentageValid)
         	{
 	            erorrMessages.Add("Призовые и призовые % должны быть числом");
         	}
             
-        	if(prizeAmount <= 0)
+        	if(prizeAmount <= 0 && prizePercentage <= 0)
         	{
 	            erorrMessages.Add("Призовые должны быть больше 0. Ну ты скупердяй");
         	}

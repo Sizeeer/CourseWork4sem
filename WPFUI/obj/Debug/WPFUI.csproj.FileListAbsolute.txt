@@ -15,7 +15,6 @@ D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\CreateTournamentDa
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\TournamentViewer.g.cs
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\App.g.cs
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI_MarkupCompile.cache
-D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI_MarkupCompile.lref
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\CreatePrize.baml
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\CreateTeam.baml
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\CreateTournament.baml

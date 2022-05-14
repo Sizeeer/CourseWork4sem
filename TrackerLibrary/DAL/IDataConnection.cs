@@ -5,8 +5,6 @@ namespace TrackerLibrary.DAL
 {
 	public interface IDataConnection
 	{
-		
-
 		PrizeModel CreatePrize(PrizeModel model);
 		PersonModel CreatePeople(PersonModel model);
 		TeamModel CreateTeam(TeamModel model);

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TrackerLibrary.BUL;
+using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI
 {
     public partial class CreateTournament : Window, IPrizeRequester, ITeamRequester
     {
-        public CreateTournament()
+        public CreateTournament(ITournamentRequester caller)
         {
 	        InitializeComponent();
-
 	        Load_Data();
 	        WireUpLists();
+	        _caller = caller;
         }
-        
+
+        private ITournamentRequester _caller;
         List<TeamModel> availableTeams = new List<TeamModel>();
 		List<TeamModel> selectedTeams = new List<TeamModel>();
 		List<PrizeModel> selectedPrizes = new List<PrizeModel>();
@@ -24,7 +25,6 @@ namespace WPFUI
 		{
 			CreateTournamentFormHandling createTournamentFormHandling = new CreateTournamentFormHandling();
 
-			// Get all teams and insert those teams into list of team model called availableTeams
 			availableTeams = createTournamentFormHandling.Get_All_Teams();
 		}
 
@@ -33,7 +33,6 @@ namespace WPFUI
 			cbSelectTeam.ItemsSource = null;
 			cbSelectTeam.ItemsSource = availableTeams;
 			cbSelectTeam.DisplayMemberPath = "TeamName";
-			// select the propery of availableTeams to display on the combo box
 
 			lstTournamentTeams.ItemsSource = null;
 			lstTournamentTeams.ItemsSource = selectedTeams;
@@ -48,7 +47,6 @@ namespace WPFUI
 		{
 			TeamModel t = (TeamModel)cbSelectTeam.SelectedItem;
 
-			// If t == null, dont do anything
 			if(t != null)
 			{
 				availableTeams.Remove(t);
@@ -59,18 +57,12 @@ namespace WPFUI
 
 		private void btnCreatePrize_Click(object sender, EventArgs e)
 		{
-			// Call the create prize form
 			CreatePrize frm = new CreatePrize(this);
 			frm.Show();
-
-			
 		}
 
 		public void PrizeComplete(PrizeModel p)
 		{
-			// Get back from the form a prize model
-
-			// Take the prize model to the list
 			selectedPrizes.Add(p);
 			WireUpLists();
 		}
@@ -108,75 +100,65 @@ namespace WPFUI
 			}
 		}
 
-		private string ValidateData()
+		private List<string> ValidateData()
 		{
-			string output = "";
+			List<string> erorrMessages = new List<string>();
 
 			if (txtTournamentName.Text.Length == 0)
 			{
-				output = "You must enter a tournament name";
+				erorrMessages.Add("Название турнира обязательно");
 			}
 			else if(lstTournamentTeams.Items.Count < 2)
 			{
-				output = "You must have at least 2 teams";
+				erorrMessages.Add("Должно быть минимум 2 команды");
 			}
 			else if(lstPrizes.Items.Count < 2)
 			{
-				output = "You must have at least 2 prizes";
+				erorrMessages.Add("Должно быть минимум 2 приза");
 			}
-			
-			return output;
-			
+
+			return erorrMessages;
 		}
 
 		private void btnCreateTournament_Click(object sender, EventArgs e)
 		{
-			string errorMessage = ValidateData();
-			if (errorMessage.Length > 0)
+			List<string> errorMessages = ValidateData();
+			if (errorMessages.Count == 0)
 			{
-				MessageBox.Show($"Input error : {errorMessage}");
-				return;
+				float fee;
+				bool feeAcceptable = float.TryParse(txtEntryFee.Text, out fee);
+
+				if(!feeAcceptable)
+				{
+					MessageBox.Show("Введите валидное взначение взноса");
+				}
+				else
+				{
+					TournamentModel tm = new TournamentModel();
+					tm.TournamentName = txtTournamentName.Text;
+					tm.EntryFee = fee;
+
+					tm.Prizes = selectedPrizes;
+					tm.EnteredTeams = selectedTeams;
+					tm.IsCompleted = false;
+
+					TournamentLogic.CreateRounds(tm);
+				
+					CreateTournamentFormHandling createTournamentFormHandling = new CreateTournamentFormHandling();
+					createTournamentFormHandling.CreateTournament(tm);
+
+					TournamentLogic.UpdateTournamentResults(tm);
+
+					TournamentViewer frm = new TournamentViewer(tm);
+					frm.Show();
+					_caller.TournamentComplete();
+					this.Close();
+				}
 			}
-
-			// Validate data
-			float fee = 0;
-			bool feeAcceptable = float.TryParse(txtEntryFee.Text, out fee);
-
-			if(!feeAcceptable)
+			else
 			{
-				MessageBox.Show("You need to enter a valid entry fee ", 
-					"Invalid fee", 
-					MessageBoxButton.OK,
-					MessageBoxImage.Error);
-				return;
+				MessageBox.Show(String.Join("\n", errorMessages));
 			}
-
-			// Create Tournament entry
-			TournamentModel tm = new TournamentModel();
-			tm.TournamentName = txtTournamentName.Text;
-			// using try parse to not to expled
-			tm.EntryFee = fee;
-
-			tm.Prizes = selectedPrizes;
-			tm.EnteredTeams = selectedTeams;
-
-			// Wire our matchup
-			TournamentLogic.CreateRounds(tm);
-
-			// Create all the prizes entries
-			// Create all of the teams entries
-			CreateTournamentFormHandling createTournamentFormHandling = new CreateTournamentFormHandling();
-			createTournamentFormHandling.CreateTournament(tm);
-
-			TournamentLogic.UpdateTournamentResults(tm);
-
-			
-			
-
-			TournamentViewer frm = new TournamentViewer(tm);
-			frm.Show();
-			this.Close();
-
 		}
     }
 }

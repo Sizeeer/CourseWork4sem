@@ -2,11 +2,10 @@
 using TrackerLibrary.DAL;
 using TrackerLibrary.DTO;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
 	public class TournamentDashboardFormHandling
 	{
-		// Get all tournaments from db
 		public List<TournamentModel> Get_All_Tournaments()
 		{
 			List<TournamentModel> T = GlobalConfig.Connection.Get_All_Tournaments();

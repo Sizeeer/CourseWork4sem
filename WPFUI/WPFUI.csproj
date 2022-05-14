@@ -54,6 +54,7 @@
         </ApplicationDefinition>
         <Compile Include="IPrizeRequester.cs" />
         <Compile Include="ITeamRequester.cs" />
+        <Compile Include="ITournamentRequester.cs" />
         <Compile Include="TournamentViewer.xaml.cs">
           <DependentUpon>TournamentViewer.xaml</DependentUpon>
         </Compile>

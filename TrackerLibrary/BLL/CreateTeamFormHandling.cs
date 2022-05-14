@@ -2,7 +2,7 @@
 using TrackerLibrary.DAL;
 using TrackerLibrary.DTO;
 
-namespace TrackerLibrary.BUL
+namespace TrackerLibrary.BLL
 {
 	public class CreateTeamFormHandling
 	{
@@ -14,17 +14,14 @@ namespace TrackerLibrary.BUL
             model.EmailAddress = emailAddress;
             model.CellPhoneNumber = phoneNumber;
 
-
             GlobalConfig.Connection.CreatePeople(model);
             return model;
 		}
-
         public List<PersonModel> Select_All_Persons()
         {
             List<PersonModel> output = GlobalConfig.Connection.Get_All_Persons();
             return output;
         }
-        
         public TeamModel CreateTeam(TeamModel team_from_UI)
 		{
             TeamModel t = GlobalConfig.Connection.CreateTeam(team_from_UI);
