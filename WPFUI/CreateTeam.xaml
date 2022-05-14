@@ -1,0 +1,32 @@
+﻿<Window x:Class="WPFUI.CreateTeam"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFUI"
+        mc:Ignorable="d"
+        Title="Create Team" Height="597.2" Width="513.6">
+    <Grid Margin="0,0,-0.4,0">
+        <Label Content="Create Team" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="28,28,0,0" HorizontalAlignment="Left" Width="242" Height="58" VerticalAlignment="Top"/>
+        <Label Content="Team name" Margin="42,86,0,0" HorizontalAlignment="Left" Width="166" Height="37" VerticalAlignment="Top"/>
+        <TextBox Name="txtTeamName" HorizontalAlignment="Left" Height="23" Margin="42,123,0,0" TextWrapping="Wrap" Text="textBox_team_name" VerticalAlignment="Top" Width="196"/>
+        <Label Content="Select team Member" Margin="41,153,0,0" HorizontalAlignment="Left" Width="121" Height="28" VerticalAlignment="Top"/>
+        <ComboBox Name="cbSelectTeamMember" HorizontalAlignment="Left" Margin="42,181,0,0" VerticalAlignment="Top" Width="196"/>
+        <GroupBox Header="Add new member" HorizontalAlignment="Left" Height="215" Margin="41,257,0,0" VerticalAlignment="Top" Width="197"/>
+        <Label Content="First name" Margin="46,283,0,0" HorizontalAlignment="Left" Width="69" Height="33" VerticalAlignment="Top"/>
+        <TextBox Name="txtFirstName" HorizontalAlignment="Left" Height="23" Margin="115,287,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <Label Content="Last name" Margin="46,311,0,0" HorizontalAlignment="Left" Width="69" Height="33" VerticalAlignment="Top"/>
+        <TextBox Name="txtLastName" HorizontalAlignment="Left" Height="23" Margin="115,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <Label Content="Email" Margin="46,339,0,112" HorizontalAlignment="Left" Width="69"/>
+        <TextBox Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="115,343,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <Label Content="Telephone" Margin="46,366,0,0" HorizontalAlignment="Left" Width="69" Height="33" VerticalAlignment="Top"/>
+        <TextBox Name="txtCellPhone" HorizontalAlignment="Left" Height="23" Margin="115,370,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107"/>
+        <Button Name="button_addMember" Content="Add member" HorizontalAlignment="Left" Margin="80,212,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnAddMember_Click"/>
+        <Button Name="button_createMember" Content="Create member" HorizontalAlignment="Left" Margin="80,414,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnCreateMember_Click"/>
+        <ListBox Name="lstTeamMembers" HorizontalAlignment="Left" Height="276" Margin="276,123,0,0" VerticalAlignment="Top" Width="198"/>
+        <Button Name="button_removeSelected" Content="Remove selected" HorizontalAlignment="Left" Margin="323,414,0,0" VerticalAlignment="Top" Width="103" Height="40" Click="btnRemoveSelectedMember_Click_1"/>
+        <Button Name="button_createTeam" Content="Create Team" HorizontalAlignment="Left" Margin="206,501,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnCreateTeam_Click"/>
+
+    </Grid>
+</Window>
+

@@ -1,0 +1,9 @@
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\bin\Debug\TrackerLibrary.dll
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\bin\Debug\TrackerLibrary.pdb
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\bin\Debug\Dapper.dll
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\bin\Debug\Dapper.xml
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\obj\Debug\TrackerLibrary.csproj.AssemblyReference.cache
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\obj\Debug\TrackerLibrary.csproj.CoreCompileInputs.cache
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\obj\Debug\TrackerLibrary.csproj.CopyComplete
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\obj\Debug\TrackerLibrary.dll
+D:\University\CourseWork\TournamentManagement\TrackerLibrary\obj\Debug\TrackerLibrary.pdb
