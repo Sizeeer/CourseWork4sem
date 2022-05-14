@@ -10,24 +10,22 @@ namespace WPFUI
     {
         public CreateTournamentDashboard()
         {
-            // First of all, initialize the connection 
             InitializeConnections initializeConnection = new InitializeConnections();
             initializeConnection.InitializeConnection();
             InitializeComponent();
             WireUpLists();
         }
         
-        List<TournamentModel> tournaments;
+        List<TournamentModel> _tournaments;
 
         private void WireUpLists()
         {
             TournamentDashboardFormHandling handling = new TournamentDashboardFormHandling();
-
-            // Get all teams and insert those teams into list of team model called availableTeams
-            tournaments = handling.Get_All_Tournaments();
+            
+            _tournaments = handling.Get_All_Tournaments();
 
             cbLoadExistingTournament.ItemsSource = null;
-            cbLoadExistingTournament.ItemsSource = tournaments;
+            cbLoadExistingTournament.ItemsSource = _tournaments;
             cbLoadExistingTournament.DisplayMemberPath = "tournamentName";
         }
 
@@ -40,14 +38,14 @@ namespace WPFUI
         private void btnLoadTournament_Click(object sender, EventArgs e)
         {
             TournamentModel tm = (TournamentModel)cbLoadExistingTournament.SelectedItem;
-            if(tm == null)
-            {
-                MessageBox.Show("You can not load a tournament becase you don't have it !");
-            }
-            else
+            if(tm != null)
             {
                 TournamentViewer frm = new TournamentViewer(tm);
                 frm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Перед загрузкой выберите нужный турнир");
             }
 			
         }

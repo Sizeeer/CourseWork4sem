@@ -12,31 +12,18 @@ namespace WPFUI
         {
 	        InitializeComponent();
 	        callingForm = caller;
-	        //CreateSampleData();
 	        LoadListData();
 	        WireUpLists();
         }
         
-        private List<PersonModel> availableTeamMembers = new List<PersonModel>();
+        private List<PersonModel> _availableTeamMembers = new List<PersonModel>();
 		private List<PersonModel> selectedTeamMembers = new List<PersonModel>();
 		private ITeamRequester callingForm;
 
 		private void LoadListData()
 		{
-			CreateTeamFormHandling personHandlingBUL = new CreateTeamFormHandling();
-			availableTeamMembers = personHandlingBUL.Select_All_Persons();	
+			_availableTeamMembers = new CreateTeamFormHandling().Select_All_Persons();	
 		}
-
-		private void CreateSampleData()
-		{
-			availableTeamMembers.Add(new PersonModel { FirstName = "Tim" , LastName = "Corey" });
-			availableTeamMembers.Add(new PersonModel { FirstName = "2", LastName = "2" });
-
-			selectedTeamMembers.Add(new PersonModel { FirstName = "3", LastName = "Corey" });
-			selectedTeamMembers.Add(new PersonModel { FirstName = "4", LastName = "2" });
-		}
-
-		// Wire up list of team members to list box and combo box
 		private void WireUpLists()
 		{
 			lstTeamMembers.ItemsSource = null;
@@ -44,26 +31,26 @@ namespace WPFUI
 			lstTeamMembers.DisplayMemberPath = "FullName";
 
 			cbSelectTeamMember.ItemsSource = null;
-			cbSelectTeamMember.ItemsSource = availableTeamMembers;
+			cbSelectTeamMember.ItemsSource = _availableTeamMembers;
 			cbSelectTeamMember.DisplayMemberPath = "FullName";
 		}
 
 		private void btnCreateMember_Click(object sender, EventArgs e)
 		{
-			string errorMessage = ValidateData();
-			if (errorMessage.Length > 0)
+			List<string> errorMessages = ValidateData();
+			if (errorMessages.Count == 0)
 			{
-				MessageBox.Show($"Input error : {errorMessage}");
-				return;
+				CreatePersonModel();
+
+				txtFirstName.Text = "";
+				txtLastName.Text = "";
+				txtEmail.Text = "";
+				txtCellPhone.Text = "";
 			}
-
-			CreatePersonModel();
-
-			txtFirstName.Text = "";
-			txtLastName.Text = "";
-			txtEmail.Text = "";
-			txtCellPhone.Text = "";
-			
+			else
+			{
+				MessageBox.Show(String.Join("\n", errorMessages));
+			}
 		}
 
 		private void CreatePersonModel()
@@ -76,69 +63,59 @@ namespace WPFUI
 			CreateTeamFormHandling createPersonBUL = new CreateTeamFormHandling();
 			PersonModel p = createPersonBUL.CreatePerson(firstName, lastName, emailAddress, phoneNumber);
 
-			// Add to the selected team members list --> Recall wireup lists
-			availableTeamMembers.Add(p);
+			_availableTeamMembers.Add(p);
 			WireUpLists();
 		}
-
-		private string ValidateData()
+		
+		private List<string> ValidateData()
 		{
-			string output = "";
+			List<string> erorrMessages = new List<string>();
 
 			if (txtFirstName.Text.Length == 0)
 			{
-				output = "You must enter the first name";
+				erorrMessages.Add("Имя не может быть пустым");
 			}
 			else if (txtLastName.Text.Length == 0)
 			{
-				output = "You must enter the last name";
+				erorrMessages.Add("Фамилия не может быть пустой");
 			}
 			else if (txtEmail.Text.Length == 0)
 			{
-				output = "You must enter email address";
+				erorrMessages.Add("Email обязателен");
 			}
 			else if (!txtEmail.Text.Contains("@"))
 			{
-				output = "Email address must contains @";
+				erorrMessages.Add("Email должен содержать @");
 			}
 			else if(txtCellPhone.Text.Length == 0)
 			{
-				output = "You must enter a cellphone number";
+				erorrMessages.Add("Телефон обязателен");
 			}
-			
 
-			return output;
+			return erorrMessages;
 		}
-
 		private void btnAddMember_Click(object sender, EventArgs e)
 		{
 			PersonModel p = (PersonModel)cbSelectTeamMember.SelectedItem;
 
 			if(p != null)
 			{
-				availableTeamMembers.Remove(p);
+				_availableTeamMembers.Remove(p);
 				selectedTeamMembers.Add(p);
 
 				WireUpLists();
 			}
 		}
-
-		private void btnRemoveSelectedMember_Click(object sender, EventArgs e)
-		{
-
-		}
-
 		private void btnCreateTeam_Click(object sender, EventArgs e)
 		{
-			if (lstTeamMembers.Items.Count == 0)
-			{
-				MessageBox.Show("You must have at least one member in a team");
-			}
-			else
+			if (lstTeamMembers.Items.Count > 0)
 			{
 				CreateTeamFunc();
 			}
-			
+			else
+			{
+				MessageBox.Show("В команде должен быть хотябы 1 игрок");
+			}
 		}
 
 		private void CreateTeamFunc()
@@ -148,29 +125,26 @@ namespace WPFUI
 			t.TeamName = teamName;
 			t.TeamMembers = selectedTeamMembers;
 
-			if(t.TeamName != "")
+			if(t.TeamName == "")
+			{
+				MessageBox.Show("Название команды не может быть пустым");
+			}
+			else
 			{
 				CreateTeamFormHandling createTeamFormHandling = new CreateTeamFormHandling();
 				createTeamFormHandling.CreateTeam(t);
 				callingForm.TeamComplete(t);
 				this.Close();
 			}
-			else
-			{
-				MessageBox.Show("Please create a team name ! ");
-			}
-			
-
-			// TODO - If we aren't closing this form after creation, reset this form
 		}
 
-		private void btnRemoveSelectedMember_Click_1(object sender, EventArgs e)
+		private void btnRemoveSelectedMember_Click(object sender, EventArgs e)
 		{
 			PersonModel p = (PersonModel)lstTeamMembers.SelectedItem;
 			if(p != null)
 			{
 				selectedTeamMembers.Remove(p);
-				availableTeamMembers.Add(p);
+				_availableTeamMembers.Add(p);
 				WireUpLists();
 			}
 		}

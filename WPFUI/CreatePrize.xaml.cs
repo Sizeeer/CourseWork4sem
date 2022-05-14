@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using TrackerLibrary.BUL;
 using TrackerLibrary.DTO;
@@ -17,7 +18,8 @@ namespace WPFUI
 
         private void btnCreatePrize_Click(object sender, EventArgs e)
         {
-        	if(ValidateForm())
+	        List<string> errorMessages = ValidateForm();
+        	if(errorMessages.Count == 0)
         	{
         		CreatePrizeModel();
 
@@ -28,7 +30,7 @@ namespace WPFUI
         	}
         	else
         	{
-        		MessageBox.Show("This form has invalid information. Please check it and try again ! ");
+        		MessageBox.Show(String.Join("\n", errorMessages));
         	}
         }
         private void CreatePrizeModel()
@@ -45,21 +47,22 @@ namespace WPFUI
 
         	this.Close();
         }
-        private bool ValidateForm()
+        private List<string> ValidateForm()
         {
+	        List<string> erorrMessages = new List<string>();
         	bool output = true;
         	int placeNumber = 0;
 
         	bool placeNumberValidNumber = int.TryParse(txtPlaceNumber.Text, out placeNumber);
 
         	if(!placeNumberValidNumber || placeNumber < 1)
-        	{
-        		output = false;
-        	}
+            {
+	            erorrMessages.Add("Место должно быть числом и больше 0");
+            }
 
         	if(txtPlaceName.Text.Length == 0)
         	{
-        		output = false;
+	            erorrMessages.Add("Имя места не может быть пустым");
         	}
 
         	decimal prizeAmount = 0;
@@ -70,21 +73,21 @@ namespace WPFUI
 
         	if(!prizeAmountValid || !prizePercentageValid)
         	{
-        		output = false;
+	            erorrMessages.Add("Призовые и призовые % должны быть числом");
         	}
             
         	if(prizeAmount <= 0)
         	{
-        		output = false;
+	            erorrMessages.Add("Призовые должны быть больше 0. Ну ты скупердяй");
         	}
             
         	if(prizePercentage < 0 || prizePercentage > 100)
         	{
-        		output = false;
+	            erorrMessages.Add("Призовые % должны быть больше 0 и меньше 100");
         	}
         	
 
-        	return output;
+        	return erorrMessages;
         }
     }
 }

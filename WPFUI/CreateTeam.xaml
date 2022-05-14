@@ -24,7 +24,7 @@
         <Button Name="button_addMember" Content="Add member" HorizontalAlignment="Left" Margin="80,212,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnAddMember_Click"/>
         <Button Name="button_createMember" Content="Create member" HorizontalAlignment="Left" Margin="80,414,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnCreateMember_Click"/>
         <ListBox Name="lstTeamMembers" HorizontalAlignment="Left" Height="276" Margin="276,123,0,0" VerticalAlignment="Top" Width="198"/>
-        <Button Name="button_removeSelected" Content="Remove selected" HorizontalAlignment="Left" Margin="323,414,0,0" VerticalAlignment="Top" Width="103" Height="40" Click="btnRemoveSelectedMember_Click_1"/>
+        <Button Name="button_removeSelected" Content="Remove selected" HorizontalAlignment="Left" Margin="323,414,0,0" VerticalAlignment="Top" Width="103" Height="40" Click="btnRemoveSelectedMember_Click"/>
         <Button Name="button_createTeam" Content="Create Team" HorizontalAlignment="Left" Margin="206,501,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnCreateTeam_Click"/>
 
     </Grid>
