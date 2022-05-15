@@ -5,8 +5,8 @@ GO
   CREATE TABLE Tournaments (
     id INT IDENTITY PRIMARY KEY,
     tournamentName NVARCHAR(100) NOT NULL,
-    entryFee FLOAT NOT NULL DEFAULT '0',
-    isCompleted BIT DEFAULT 0
+    entryFee FLOAT NOT NULL DEFAULT 0,
+    isCompleted BIT NOT NULL DEFAULT 0
   )
 GO
   CREATE TABLE Teams (
@@ -18,12 +18,10 @@ GO
     id INT IDENTITY PRIMARY KEY,
     placeNumber INT NOT NULL,
     placeName NVARCHAR(100) NOT NULL,
-    prizeAmount MONEY NOT NULL,
-    prizePercentage FLOAT -- Prize Percentage can be null
+    prizeAmount MONEY,
+    prizePercentage FLOAT
   )
 GO
-  -- TournamentEntries uses 2 connection of 2 tables : Tournaments and Teams
-  -- A tournament can have more than one team
   CREATE TABLE TournamentEntries (
     id INT IDENTITY PRIMARY KEY,
     tournamentID INT NOT NULL,
@@ -32,8 +30,6 @@ GO
     FOREIGN KEY(teamID) REFERENCES Teams(id) ON DELETE CASCADE
   )
 GO
-  -- Tournament Prizes connect to 2 tables : Tournaments and Prizes
-  -- A tournament can have more than one prizes
   CREATE TABLE TournamentPrizes (
     id INT IDENTITY PRIMARY KEY,
     tournamentID INT NOT NULL,
@@ -50,8 +46,6 @@ GO
     phoneNumber NVARCHAR(100) NOT NULL
   )
 GO
-  -- TeamMembers Table connect to 2 tables : Teams and People
-  --A team can have more than one people 
   CREATE TABLE TeamMembers (
     id INT IDENTITY PRIMARY KEY,
     teamID INT NOT NULL,
@@ -71,11 +65,11 @@ GO
 GO
   CREATE TABLE MatchupEntries (
     id INT IDENTITY PRIMARY KEY,
-    score FLOAT NOT NULL,
+    score FLOAT NOT NULL DEFAULT 0,
     matchupID INT NOT NULL,
     teamCompetingID INT NULL,
     parentMatchupID INT NULL,
-    FOREIGN KEY(matchupID) REFERENCES Matchups(id),
+    FOREIGN KEY(matchupID) REFERENCES Matchups(id) ON DELETE CASCADE,
     FOREIGN KEY(teamCompetingID) REFERENCES Teams(id),
     FOREIGN KEY(parentMatchupID) REFERENCES Matchups(id),
   )
@@ -214,8 +208,6 @@ WHERE
   te.tournamentID = @tournamentID
 END
 GO
-  -- Grab the matchup information based upon tournament ID
-  -- Matchup Round should be order by ascending, if not, the system
   CREATE PROCEDURE PROC_selectMatchups_GetByTournament @tournamentID INT AS BEGIN
 SET
   NOCOUNT ON;
@@ -262,6 +254,14 @@ UPDATE
   Tournaments
 SET
   isCompleted = 1
+WHERE
+  id = @id;
+
+END
+GO
+  CREATE PROCEDURE PROC_deleteTournament @id INT AS BEGIN
+DELETE FROM
+  Tournaments
 WHERE
   id = @id;
 
@@ -325,7 +325,6 @@ SELECT
   @id = SCOPE_IDENTITY()
 END
 GO
-  -----------------------
   CREATE PROCEDURE PROC_updateMatchups @id INT,
   @winnerID INT AS BEGIN
 SET
@@ -339,7 +338,6 @@ WHERE
   id = @id
 END
 GO
-  -- TeamCompeting ID is 0 because if we dont know teamcompeting ID, it will be default to zero
   CREATE PROCEDURE PROC_updateMatchupEntries @id INT,
   @teamCompetingID INT = NULL,
   @score FLOAT = NULL AS BEGIN
@@ -354,46 +352,3 @@ SET
 WHERE
   id = @id
 END
-GO
-SELECT
-  *
-FROM
-  Tournaments
-SELECT
-  *
-FROM
-  TournamentEntries
-SELECT
-  *
-FROM
-  TournamentPrizes
-SELECT
-  *
-FROM
-  Matchups
-WHERE
-  tournamentID = 17
-SELECT
-  *
-FROM
-  MatchupEntries
-WHERE
-  matchupID = 20
-DELETE FROM
-  Prizes
-DELETE FROM
-  People
-DELETE FROM
-  Teams
-DELETE FROM
-  TeamMembers
-DELETE FROM
-  MatchupEntries
-DELETE FROM
-  Matchups
-DELETE FROM
-  TournamentPrizes
-DELETE FROM
-  TournamentEntries
-DELETE FROM
-  Tournaments

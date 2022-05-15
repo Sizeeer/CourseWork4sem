@@ -11,6 +11,7 @@ namespace TrackerLibrary.DAL
 		void CreateTournament(TournamentModel model);
 
 		void CompleteTournament(TournamentModel model);
+		void DeleteTournament(TournamentModel model);
 		void UpdateMatchup(MatchupModel model);
 		List<TeamModel> Get_All_Teams();
 		List<PersonModel> Get_All_Persons();

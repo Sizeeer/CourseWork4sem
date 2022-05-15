@@ -28,3 +28,4 @@ D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.csproj.CopyC
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.exe
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.pdb
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\WPFUI.exe.config
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI_Content.g.cs

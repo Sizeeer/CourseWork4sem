@@ -16,10 +16,10 @@ namespace WPFUI
 	        _caller = caller;
         }
 
-        private ITournamentRequester _caller;
+        ITournamentRequester _caller;
         List<TeamModel> availableTeams = new List<TeamModel>();
 		List<TeamModel> selectedTeams = new List<TeamModel>();
-		List<PrizeModel> selectedPrizes = new List<PrizeModel>();
+		public List<PrizeModel> selectedPrizes { get; set; } = new List<PrizeModel>();
 
 		private void Load_Data()
 		{
@@ -149,7 +149,7 @@ namespace WPFUI
 
 					TournamentLogic.UpdateTournamentResults(tm);
 
-					TournamentViewer frm = new TournamentViewer(tm);
+					TournamentViewer frm = new TournamentViewer(tm, _caller);
 					frm.Show();
 					_caller.TournamentComplete();
 					this.Close();

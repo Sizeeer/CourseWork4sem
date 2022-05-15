@@ -17,11 +17,10 @@ namespace WPFUI
         }
         
         List<TournamentModel> _tournaments;
+        TournamentDashboardFormHandling handling = new TournamentDashboardFormHandling();
 
         private void WireUpLists()
         {
-            TournamentDashboardFormHandling handling = new TournamentDashboardFormHandling();
-            
             _tournaments = handling.Get_All_Tournaments();
 
             cbLoadExistingTournament.ItemsSource = null;
@@ -34,20 +33,33 @@ namespace WPFUI
             CreateTournament frm = new CreateTournament(this);
             frm.Show();
         }
+        
+        private void btnDeleteTournament_Click(object sender, EventArgs e)
+        {
+            TournamentModel tm = (TournamentModel)cbLoadExistingTournament.SelectedItem;
+            if(tm != null)
+            {
+                handling.DeleteTournament(tm);
+                WireUpLists();
+            }
+            else
+            {
+                MessageBox.Show("Перед удалением выберите нужный турнир");
+            }
+        }
 
         private void btnLoadTournament_Click(object sender, EventArgs e)
         {
             TournamentModel tm = (TournamentModel)cbLoadExistingTournament.SelectedItem;
             if(tm != null)
             {
-                TournamentViewer frm = new TournamentViewer(tm);
+                TournamentViewer frm = new TournamentViewer(tm, this);
                 frm.Show();
             }
             else
             {
                 MessageBox.Show("Перед загрузкой выберите нужный турнир");
             }
-			
         }
 
         public void TournamentComplete()

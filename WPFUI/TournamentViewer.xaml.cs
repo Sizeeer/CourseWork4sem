@@ -10,11 +10,12 @@ namespace WPFUI
 {
     public partial class TournamentViewer : Window
     {
-        public TournamentViewer(TournamentModel model)
+        public TournamentViewer(TournamentModel model, ITournamentRequester callingForm)
         {
 	        InitializeComponent();
 
 	        this.tournament = model;
+	        this.callingForm = callingForm;
 
 	        WireUpLists();
 
@@ -24,14 +25,13 @@ namespace WPFUI
         }
         
         private TournamentModel tournament;
+        private ITournamentRequester callingForm;
 		BindingList<int> rounds = new BindingList<int>();
 		BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
 		private void LoadFormData()
 		{
 			lbTournamentName.Content = tournament.TournamentName;
-			
-			ckbUnplayedOnly.Visibility = tournament.IsCompleted ? Visibility.Hidden : Visibility.Visible;
-			btnScore.IsEnabled = tournament.IsCompleted ? false : true;
+			ckbUnplayedOnly.IsChecked = tournament.IsCompleted ? false : true;
 			txtTeamOneScore.IsEnabled = tournament.IsCompleted ? false : true;
 			txtTeamTwoScore.IsEnabled = tournament.IsCompleted ? false : true;
 		}
@@ -99,7 +99,8 @@ namespace WPFUI
 			txtTeamTwoScore.Visibility = isVisible;
 			teamOneScoreLabel.Visibility = isVisible;
 			teamTwoScoreLabel.Visibility = isVisible;
-			btnScore.Visibility = isVisible;
+			btnScore.Visibility = selectedMatchups.Count > 0 && !tournament.IsCompleted ? Visibility.Visible : Visibility.Hidden;
+			ckbUnplayedOnly.Visibility = tournament.IsCompleted ? Visibility.Hidden : Visibility.Visible;
 		}
 
 		private void LoadMatchup(MatchupModel m)
@@ -253,7 +254,16 @@ namespace WPFUI
 		{
 			TournamentViewerFormHandling handling = new TournamentViewerFormHandling();
 			handling.UpdateMatchupModel(m);
-			LoadMatchupsList((int)cbRounds.SelectedItem);
+			if (cbRounds.SelectedIndex + 1 == cbRounds.Items.Count)
+			{
+				MessageBox.Show("Турнир окончен");
+				callingForm.TournamentComplete();
+				this.Close();
+			}
+			else
+			{
+				LoadMatchupsList((int)cbRounds.SelectedItem);
+			}
 		}
     }
 }

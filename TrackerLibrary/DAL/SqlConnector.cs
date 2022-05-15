@@ -19,7 +19,7 @@ namespace TrackerLibrary.DAL
 				p.Add("@placeName", model.PlaceName);
 				p.Add("@prizeAmount", model.PrizeAmount);
 				p.Add("@prizePercentage", model.PrizePercentage);
-				p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+				p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 				connection.Execute("insertPrizes", p, commandType: CommandType.StoredProcedure);
 				model.Id = p.Get<int>("@id");
@@ -35,7 +35,7 @@ namespace TrackerLibrary.DAL
 				p.Add("@lastName", model.LastName);
 				p.Add("@emailAddress", model.EmailAddress);
 				p.Add("@phoneNumber", model.CellPhoneNumber);
-				p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+				p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 				connection.Execute("insertPeople", p, commandType: CommandType.StoredProcedure);
 				model.Id = p.Get<int>("@id");
@@ -48,7 +48,7 @@ namespace TrackerLibrary.DAL
 			{
 				var p = new DynamicParameters();
 				p.Add("@teamName", model.TeamName);	
-				p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+				p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 				connection.Execute("PROC_insertTeams", p, commandType: CommandType.StoredProcedure);
 				model.Id = p.Get<int>("@id");
@@ -58,7 +58,7 @@ namespace TrackerLibrary.DAL
 					p = new DynamicParameters();
 					p.Add("@teamID", model.Id);
 					p.Add("@personID", person.Id);
-					p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+					p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 					connection.Execute("PROC_insert_TeamMembers", p, commandType: CommandType.StoredProcedure);
 				}
@@ -80,7 +80,7 @@ namespace TrackerLibrary.DAL
 			var p = new DynamicParameters();
 			p.Add("@tournamentName", model.TournamentName);
 			p.Add("@entryFee", model.EntryFee);
-			p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+			p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 			p.Add("@isCompleted", value: model.IsCompleted, dbType: DbType.Boolean);
 
 			connection.Execute("PROC_insertTournament", p, commandType: CommandType.StoredProcedure);
@@ -93,7 +93,7 @@ namespace TrackerLibrary.DAL
 				var p = new DynamicParameters();
 				p.Add("@tournamentID", model.Id);
 				p.Add("@prizeID", prize.Id);
-				p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+				p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 				connection.Execute("PROC_insert_TournamentPrizes", p, commandType: CommandType.StoredProcedure);
 			}
@@ -105,7 +105,7 @@ namespace TrackerLibrary.DAL
 				var p = new DynamicParameters();
 				p.Add("@tournamentID", model.Id);
 				p.Add("@teamID", t.Id);
-				p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+				p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 				connection.Execute("PROC_insert_TournamentEntries", p, commandType: CommandType.StoredProcedure);
 			}
@@ -119,7 +119,7 @@ namespace TrackerLibrary.DAL
 					var p = new DynamicParameters();
 					p.Add("@tournamentID", model.Id);
 					p.Add("@matchupRound", matchup.MatchupRound);
-					p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+					p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 					connection.Execute("PROC_insertMatchups", p, commandType: CommandType.StoredProcedure);
 
@@ -146,9 +146,10 @@ namespace TrackerLibrary.DAL
 						{
 							p.Add("@parentMatchupID", entry.ParentMatchup.Id);
 						}
-						p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+						p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 						connection.Execute("PROC_insertMatchupEntries", p, commandType: CommandType.StoredProcedure);
+						entry.Id = p.Get<int>("@id");
 					}
 				}
 			}
@@ -181,6 +182,7 @@ namespace TrackerLibrary.DAL
 			
 			return output;
 		}
+
 		public List<TournamentModel> Get_All_Tournaments()
 		{
 			List<TournamentModel> output = new List<TournamentModel>();
@@ -194,62 +196,69 @@ namespace TrackerLibrary.DAL
 				{
 					p = new DynamicParameters();
 					p.Add("@tournamentID", t.Id);
-					t.Prizes = connection.Query<PrizeModel>("PROC_selectPrizes_GetByTournament", p, commandType:CommandType.StoredProcedure).ToList();
+					t.Prizes = connection.Query<PrizeModel>("PROC_selectPrizes_GetByTournament", p,
+						commandType: CommandType.StoredProcedure).ToList();
 
 					p = new DynamicParameters();
 					p.Add("@tournamentID", t.Id);
-					t.EnteredTeams = connection.Query<TeamModel>("PROC_selectTeams_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
+					t.EnteredTeams = connection.Query<TeamModel>("PROC_selectTeams_GetByTournament", p,
+						commandType: CommandType.StoredProcedure).ToList();
 
 					foreach (TeamModel team in t.EnteredTeams)
 					{
 						p = new DynamicParameters();
 						p.Add("@teamID", team.Id);
-						team.TeamMembers = connection.Query<PersonModel>("PROC_selectTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList();
+						team.TeamMembers = connection.Query<PersonModel>("PROC_selectTeamMembers_GetByTeam", p,
+							commandType: CommandType.StoredProcedure).ToList();
 					}
 
 					p = new DynamicParameters();
 					p.Add("@tournamentID", t.Id);
-					List<MatchupModel> matchups = connection.Query<MatchupModel>("PROC_selectMatchups_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
+					List<MatchupModel> matchups = connection.Query<MatchupModel>("PROC_selectMatchups_GetByTournament",
+						p, commandType: CommandType.StoredProcedure).ToList();
 
 					foreach (MatchupModel matchup in matchups)
 					{
 						p = new DynamicParameters();
 						p.Add("@matchupID", matchup.Id);
-						matchup.Entries = connection.Query<MatchupEntryModel>("PROC_selectMatchupEntries_GetByMatchup", p, commandType: CommandType.StoredProcedure).ToList();
+						matchup.Entries = connection.Query<MatchupEntryModel>("PROC_selectMatchupEntries_GetByMatchup",
+							p, commandType: CommandType.StoredProcedure).ToList();
 
-						List<TeamModel> allTeams = Get_All_Teams(); 
+						List<TeamModel> allTeams = Get_All_Teams();
 
-						if(matchup.WinnerID > 0)
+						if (matchup.WinnerID > 0)
 						{
 							matchup.Winner = allTeams.Where(x => x.Id == matchup.WinnerID).First();
 						}
 
-						foreach(var me in matchup.Entries)
+						foreach (var me in matchup.Entries)
 						{
-							if(me.TeamCompetingID > 0)
+							if (me.TeamCompetingID > 0)
 							{
 								me.TeamCompeting = allTeams.Where(x => x.Id == me.TeamCompetingID).First();
 							}
 
-							if(me.ParentMatchupID > 0)
+							if (me.ParentMatchupID > 0)
 							{
 								me.ParentMatchup = matchups.Where(x => x.Id == me.ParentMatchupID).First();
 							}
 						}
 					}
-					
+
 					List<MatchupModel> currentRow = new List<MatchupModel>();
 					int currentRound = 1;
 					foreach (MatchupModel matchup in matchups)
 					{
-						if(matchup.MatchupRound > currentRound)
+						if (matchup.MatchupRound > currentRound)
 						{
 							t.Rounds.Add(currentRow);
 							currentRow = new List<MatchupModel>();
 							currentRound += 1;
 						}
+
 						currentRow.Add(matchup);
 					}
+
 					t.Rounds.Add(currentRow);
 				}
 			}
@@ -292,7 +301,16 @@ namespace TrackerLibrary.DAL
 				p.Add("@id", value: model.Id);
 				connection.Execute("PROC_completeTournament", p, commandType: CommandType.StoredProcedure);
 			}
-			
+		}
+		
+		public void DeleteTournament(TournamentModel model)
+		{
+			using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+			{
+				DynamicParameters p = new DynamicParameters();
+				p.Add("@id", value: model.Id);
+				connection.Execute("PROC_deleteTournament", p, commandType: CommandType.StoredProcedure);
+			}
 		}
 	}
 }

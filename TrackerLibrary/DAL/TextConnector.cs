@@ -93,6 +93,12 @@ namespace TrackerLibrary.DAL
 				.LoadFile()
 				.ConvertToTournamentModels();
 		}
+
+		public void DeleteTournament(TournamentModel model)
+		{
+			throw new System.NotImplementedException();
+		}
+
 		public void UpdateMatchup(MatchupModel model)
 		{
 			model.UpdateMatchupToFile();

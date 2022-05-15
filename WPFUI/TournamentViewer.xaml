@@ -15,8 +15,8 @@
         <Label HorizontalAlignment="Left" Margin="35,87,0,0" VerticalAlignment="Top">
             <Label FontWeight="Medium" Foreground="#fff" Content="Раунд"/>
         </Label>
-        <ComboBox Name="cbRounds" HorizontalAlignment="Left" Margin="94,94,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbRounds_SelectedIndexChanged" />
-        <CheckBox FontWeight="Medium" Foreground="#fff" Name="ckbUnplayedOnly" Content="Только несыгранные" HorizontalAlignment="Left" Margin="94,130,0,0" VerticalAlignment="Top" Click="ckbUnplayedOnly_CheckedChanged" />
+        <ComboBox SelectedIndex="0" Name="cbRounds" HorizontalAlignment="Left" Margin="94,94,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbRounds_SelectedIndexChanged" />
+        <CheckBox IsChecked="True" FontWeight="Medium" Foreground="#fff" Name="ckbUnplayedOnly" Content="Только несыгранные" HorizontalAlignment="Left" Margin="94,130,0,0" VerticalAlignment="Top" Click="ckbUnplayedOnly_CheckedChanged" />
         <ListBox Name="lstMatchup" HorizontalAlignment="Left" Height="224" Margin="35,160,0,0" VerticalAlignment="Top" Width="261" SelectionChanged="lstMatchup_SelectedIndexChanged">
             <ListBox.Resources>
                 <Style TargetType="Border">
@@ -42,7 +42,7 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <Button Foreground="#fff" Background="#F35858" Name="btnScore" Content="Подтвердить" HorizontalAlignment="Left" Margin="439,338,0,0" VerticalAlignment="Top" Width="100" Padding="10" Click="btnScore_Click" />
+        <Button Foreground="#fff" Background="#F35858" Name="btnScore" Content="Подтвердить" HorizontalAlignment="Left" Margin="439,338,0,0" VerticalAlignment="Top" Padding="10" Click="btnScore_Click" />
     </Grid>
 </Window>
 

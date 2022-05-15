@@ -210,17 +210,12 @@ namespace TrackerLibrary.BLL
 		}
 		private static float CalculatePrizePayout(this PrizeModel prize, float totalIncome)
 		{
-			float output;
-
 			if(prize.PrizeAmount > 0)
 			{
-				output = (float)prize.PrizeAmount;
+				return (float)prize.PrizeAmount;
 			}
-			else
-			{
-				output = totalIncome * (prize.PrizePercentage / 100);
-			}
-			return output;
+			
+			return  totalIncome * (prize.PrizePercentage / 100);
 		}
 		private static void AdvanceWinners(List<MatchupModel> models, TournamentModel tournament)
 		{
@@ -247,7 +242,7 @@ namespace TrackerLibrary.BLL
 		}
 		private static void MarkWinnerInMatchups(List<MatchupModel> models)
 		{
-			string greaterWins = ConfigurationManager.AppSettings["winnerDetermination"];
+			string greaterWins = ConfigurationManager.AppSettings["greaterWins"];
 
 			foreach (MatchupModel m in models)
 			{

@@ -11,5 +11,10 @@ namespace TrackerLibrary.BLL
 			List<TournamentModel> T = GlobalConfig.Connection.Get_All_Tournaments();
 			return T;
 		}
+		
+		public void DeleteTournament(TournamentModel model)
+		{
+			GlobalConfig.Connection.DeleteTournament(model);
+		}
 	}
 }
