@@ -1,65 +1,172 @@
-﻿<Window x:Class="WPFUI.CreateTeam"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Создать команду" Height="597" Width="530" ResizeMode="NoResize" Background="#9878F1" WindowStartupLocation="CenterScreen">
-    <Grid Margin="0,0,-0.4,0">
-        <Label FontWeight="Bold" Foreground="#fff" Content="Создать команду" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="28,28,0,0" HorizontalAlignment="Left" Width="242" Height="58" VerticalAlignment="Top"/>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Название команды" Margin="35,86,0,0" HorizontalAlignment="Left" Width="Auto" Height="37" VerticalAlignment="Top"/>
-        <TextBox Name="txtTeamName" HorizontalAlignment="Left" Height="23" Margin="42,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources></TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Выбрать игрока" Margin="35,153,0,0" HorizontalAlignment="Left" Width="Auto" Height="28" VerticalAlignment="Top"/>
-        <ComboBox Name="cbSelectTeamMember" HorizontalAlignment="Left" Margin="42,181,0,0" VerticalAlignment="Top" Width="196"/>
-        <GroupBox FontWeight="Medium" Foreground="#fff" Header="Добавить нового игрока" HorizontalAlignment="Left" Height="215" Margin="41,257,0,0" VerticalAlignment="Top" Width="197"/>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Имя" Margin="46,283,0,0" HorizontalAlignment="Left" Width="69" Height="33" VerticalAlignment="Top"/>
-        <TextBox Name="txtFirstName" HorizontalAlignment="Left" Height="23" Margin="115,287,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Фамилия" Margin="46,311,0,0" HorizontalAlignment="Left" Width="69" Height="33" VerticalAlignment="Top"/>
-        <TextBox Name="txtLastName" HorizontalAlignment="Left" Height="23" Margin="115,315,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Email" Margin="46,339,0,112" HorizontalAlignment="Left" Width="69"/>
-        <TextBox Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="115,343,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Телефон" Margin="46,366,0,0" HorizontalAlignment="Left" Width="Auto" Height="33" VerticalAlignment="Top"/>
-        <TextBox Name="txtCellPhone" HorizontalAlignment="Left" Height="23" Margin="115,370,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="107">
-            <TextBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Button Foreground="#fff" Background="#F35858" Content="Добавить" HorizontalAlignment="Left" Margin="80,212,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnAddMember_Click"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Создать" HorizontalAlignment="Left" Margin="80,414,0,0" VerticalAlignment="Top" Width="104" Height="40" Click="btnCreateMember_Click"/>
-        <ListBox Name="lstTeamMembers" HorizontalAlignment="Left" Height="276" Margin="276,123,0,0" VerticalAlignment="Top" Width="198">
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-        <Button Foreground="#fff" Background="#F35858" Content="Удалить выбранного" HorizontalAlignment="Left" Margin="310,414,0,0" VerticalAlignment="Top" Width="Auto" Height="40" Padding="10" Click="btnRemoveSelectedMember_Click"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Создать команду" HorizontalAlignment="Left" Margin="206,501,0,0" VerticalAlignment="Top" Width="Auto" Height="40" Padding="10" Click="btnCreateTeam_Click"/>
+﻿<Window
+    x:Class="WPFUI.CreateTeam"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Создать команду"
+    Width="800"
+    Height="740"
+    Background="{DynamicResource MaterialDesignBackground}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    ResizeMode="NoResize"
+    TextElement.FontSize="16"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="128" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.ColumnSpan="2"
+            Margin="-1,10,23,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+            Text="{DynamicResource cteam_title}"
+            TextAlignment="Center" />
+        <TextBox
+            Name="txtTeamName"
+            Width="255"
+            Height="51"
+            Margin="45,122,394,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_team_name}"
+            Cursor="Arrow"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+        <ComboBox
+            Name="cbSelectTeamMember"
+            Width="255"
+            Height="60"
+            Margin="43,192,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_select_member}"
+            Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+        <GroupBox Margin="46,280,392,81" Header="{DynamicResource cteam_add_member_text}" />
+        <TextBox
+            Name="txtFirstName"
+            Width="206"
+            Height="49"
+            Margin="70,329,418,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_member_name}"
+            Cursor="Arrow"
+            FontSize="12"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            TextWrapping="Wrap" />
+        <TextBox
+            Name="txtLastName"
+            Width="206"
+            Height="49"
+            Margin="70,393,418,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_member_lastname}"
+            AcceptsReturn="True"
+            Cursor="Arrow"
+            RenderTransformOrigin="0.484,0.82"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            TextWrapping="Wrap" />
+        <TextBox
+            Name="txtEmail"
+            Width="206"
+            Height="49"
+            Margin="71,464,417,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_member_email}"
+            AcceptsReturn="True"
+            Cursor="Arrow"
+            RenderTransformOrigin="0.484,0.82"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            TextWrapping="Wrap" />
+
+        <TextBox
+            Name="txtCellPhone"
+            Width="206"
+            Height="49"
+            Margin="70,535,417,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource cteam_member_phone}"
+            AcceptsReturn="True"
+            Cursor="Arrow"
+            RenderTransformOrigin="0.484,0.82"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            TextWrapping="Wrap" />
+
+
+        <Button
+            Width="50"
+            Height="50.4"
+            Margin="307,193,0,519"
+            HorizontalAlignment="Left"
+            Click="btnAddMember_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource cteam_add_member_btn_tooltip}">
+            <materialDesign:PackIcon HorizontalAlignment="Center" Kind="AccountPlus" />
+        </Button>
+
+        <Button
+            Width="157"
+            Height="40"
+            Margin="93,614,0,108"
+            HorizontalAlignment="Left"
+            Click="btnCreateMember_Click"
+            Content="{DynamicResource cteam_create_member_btn}"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+
+        <TextBlock
+            Margin="420,122,181,613"
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+            Text="{DynamicResource cteam_members_title}" />
+        <ListBox
+            x:Name="lstTeamMembers"
+            Width="275"
+            Height="450"
+            Margin="419,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+            BorderThickness="2" />
+
+
+        <Button
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            Margin="9,156,69,556"
+            Click="btnRemoveSelectedMember_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource cteam_delete_selected_member}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Delete" />
+        </Button>
+
+
+        <Button
+            Width="272"
+            Height="60"
+            Margin="419,621,0,81"
+            HorizontalAlignment="Left"
+            Click="btnCreateTeam_Click"
+            Content="{DynamicResource cteam_create_team}"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+
 
     </Grid>
 </Window>

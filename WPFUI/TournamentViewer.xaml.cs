@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
@@ -28,9 +30,14 @@ namespace WPFUI
         private ITournamentRequester callingForm;
 		BindingList<int> rounds = new BindingList<int>();
 		BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
+		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+		{
+			Regex regex = new Regex("[^0-9]+");
+			e.Handled = regex.IsMatch(e.Text);
+		}
 		private void LoadFormData()
 		{
-			lbTournamentName.Content = tournament.TournamentName;
+			lbTournamentName.Text = tournament.TournamentName;
 			ckbUnplayedOnly.IsChecked = tournament.IsCompleted ? false : true;
 			txtTeamOneScore.IsEnabled = tournament.IsCompleted ? false : true;
 			txtTeamTwoScore.IsEnabled = tournament.IsCompleted ? false : true;
@@ -97,8 +104,6 @@ namespace WPFUI
 			lbteamTwoName.Visibility = isVisible;
 			txtTeamOneScore.Visibility = isVisible;
 			txtTeamTwoScore.Visibility = isVisible;
-			teamOneScoreLabel.Visibility = isVisible;
-			teamTwoScoreLabel.Visibility = isVisible;
 			btnScore.Visibility = selectedMatchups.Count > 0 && !tournament.IsCompleted ? Visibility.Visible : Visibility.Hidden;
 			ckbUnplayedOnly.Visibility = tournament.IsCompleted ? Visibility.Hidden : Visibility.Visible;
 		}
@@ -166,6 +171,10 @@ namespace WPFUI
 			else if(!scoreTwoValid)
 			{
 				errorMessages.Add("Очки второй команды должны быть числом");
+			}
+			else if (teamOneScore < 0 || teamTwoScore < 0)
+			{
+				errorMessages.Add("Очки должны быть равны 0 или более");
 			}
 
 			else if(teamOneScore == 0 && teamTwoScore == 0)

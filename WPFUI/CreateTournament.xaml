@@ -1,79 +1,199 @@
-﻿<Window x:Class="WPFUI.CreateTournament"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Создать турнир" Height="626" Width="800" ResizeMode="NoResize" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
-        FontFamily="{materialDesign:MaterialDesignFont}" WindowStartupLocation="CenterScreen">
+﻿<Window
+    x:Class="WPFUI.CreateTournament"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Создать турнир"
+    Width="850"
+    Height="650"
+    Background="{DynamicResource MaterialDesignBackground}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    ResizeMode="NoResize"
+    TextElement.FontSize="16"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="128" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0*"/>
-            <RowDefinition Height="37.002"/>
-            <RowDefinition Height="280*"/>
-            <RowDefinition Height="293*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="90.027" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label FontWeight="Bold" Content="Создать турнир" RenderTransformOrigin="0.477,0.485" FontSize="52" Margin="24,0,0,138" HorizontalAlignment="Left" Width="406" Grid.RowSpan="3"/>
-        <Label FontWeight="Medium" Content="Название турнира" Margin="35,49,0,0" HorizontalAlignment="Left" Width="166" Height="37" VerticalAlignment="Top" Grid.Row="2"/>
-        <TextBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="txtTournamentName" Margin="35,79,0,0" Height="47" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" Grid.Row="2" />
+        <TextBlock
+            Grid.ColumnSpan="2"
+            Margin="0,13,0,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            Style="{StaticResource MaterialDesignHeadline2TextBlock}"
+            Text="{DynamicResource ct_title}"
+            TextAlignment="Center" />
 
-        <Label FontWeight="Medium" Content="Взнос" Margin="41,137,0,174" HorizontalAlignment="Left" Width="41" Grid.Row="2" Grid.RowSpan="2"/>
-        <TextBox x:Name="txtEntryFee" HorizontalAlignment="Left" Height="23" Margin="90,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Row="2"/>
-        <Label FontWeight="Medium" Content="Выберете команду" Margin="41,234,0,72" HorizontalAlignment="Left" Width="121" Grid.Row="2" Grid.RowSpan="2"/>
+        <TextBox
+            x:Name="txtTournamentName"
+            Grid.Row="1"
+            MaxWidth="270"
+            Margin="48,31,404,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource ct_name_tournament}"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+        <TextBox
+            x:Name="txtEntryFee"
+            Grid.Row="2"
+            MaxWidth="180"
+            Margin="49,22,493,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource ct_fee}"
+            materialDesign:TextFieldAssist.PrefixText="$"
+            Cursor="Arrow"
+            PreviewTextInput="NumberValidationTextBox"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
         <ComboBox
-             BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2"
-     x:Name="cbSelectTeam"
-    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-    materialDesign:HintAssist.Hint="Выбрать"
-    ItemsSource="{Binding ShortStringList}" Margin="35,7,541,236" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Grid.Row="3" Height="50" />
+            x:Name="cbSelectTeam"
+            Grid.Row="2"
+            Width="304"
+            Height="72"
+            Margin="48,148,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            materialDesign:HintAssist.Hint="{DynamicResource ct_select_team}"
+            Style="{StaticResource MaterialDesignOutlinedComboBox}" />
 
-        <Button Click="btnAddTeam_Click" Background="#F35858" HorizontalAlignment="Left" Margin="269,13,0,0" Padding="5" VerticalAlignment="Top" Width="26" Height="25" Grid.Row="3">
-            <materialDesign:PackIcon Kind="PlusCircle"  HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <Button
+            Grid.Row="2"
+            Width="50"
+            Height="50"
+            Margin="359,149,313,191"
+            Click="btnCreateTeam_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource ct_create_team}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Pencil" />
         </Button>
 
-        <Button Background="#F35858" HorizontalAlignment="Left" Margin="269,266,0,0" Padding="5" VerticalAlignment="Top" Width="26" Click="linklbCreateNewTeam_LinkClicked" Height="24" Grid.Row="2" Grid.RowSpan="2">
-            <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button
+            Grid.Row="2"
+            Width="50"
+            Height="40"
+            Margin="191,227,481,103"
+            Click="selectAllTeams_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource ct_select_all_teams}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="CheckAll" />
         </Button>
-        <Button Background="#F35858" HorizontalAlignment="Left"  Padding="5" VerticalAlignment="Top" Width="41" Click="btnCreatePrize_Click" Height="37" Grid.Row="2" Margin="710,268,0,0" Grid.RowSpan="2">
-            <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="25" />
-        </Button>
-        <Button  Background="#F35858" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="49"  Click="btnRemoveSelectedPrizes_Click" Grid.Row="3" Margin="701,39,0,0">
-            <materialDesign:PackIcon Kind="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Height="29" Width="28" >
-                <materialDesign:PackIcon.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="0"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </materialDesign:PackIcon.RenderTransform>
-            </materialDesign:PackIcon>
-        </Button>
-        <ListBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="lstTournamentTeams" HorizontalAlignment="Left" Height="191" Margin="483,47,0,0" VerticalAlignment="Top" Width="178" Grid.Row="2"></ListBox>
 
-        <Label FontWeight="Medium" Foreground="#fff" Content="Команды" Margin="0,47,0,0" HorizontalAlignment="Center" Width="166" Height="32" VerticalAlignment="Top" Grid.Row="2"/>
-        <Button  Background="#F35858" HorizontalAlignment="Left" Margin="686,53,0,0" VerticalAlignment="Top" Width="50" Height="49" Click="btnRemoveSelectedPlayers_Click" Grid.Row="2">
-            <materialDesign:PackIcon Kind="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Height="29" Width="28" >
-                <materialDesign:PackIcon.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="0"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </materialDesign:PackIcon.RenderTransform>
-            </materialDesign:PackIcon>
-        </Button>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Призы" Margin="0,210,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Center" Width="166" Grid.Row="2"/>
-        <ListBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="lstPrizes" HorizontalAlignment="Left" Height="137" VerticalAlignment="Top" Margin="483,266,0,0" RenderTransformOrigin="0.5,0.5" Width="182" Grid.Row="2" Grid.RowSpan="2">
-        </ListBox>
+        <Button
+            Grid.Row="2"
+            Width="136"
+            Height="40"
+            Margin="49,227,0,103"
+            HorizontalAlignment="Left"
+            Click="btnAddTeam_Click"
+            Content="{DynamicResource ct_add_team}"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
 
-        <Button Foreground="#fff" Background="#F35858" Content="Создать турнир" HorizontalAlignment="Left" Margin="303,193,0,0" VerticalAlignment="Top" Width="170" Height="46" Click="btnCreateTournament_Click" Grid.Row="3"/>
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            Margin="9,174,69,166"
+            Click="btnCreatePrize_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource ct_create_prize}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Pencil" />
+        </Button>
+
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            Margin="9,229,69,111"
+            Click="btnRemoveSelectedPrizes_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource ct_delete_prize}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Delete" />
+        </Button>
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="544,15,73,51"
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+            Text="{DynamicResource ct_teams_title}" />
+        <ListBox
+            x:Name="lstTournamentTeams"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Width="178"
+            Height="191"
+            Margin="544,42,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+            BorderThickness="2" />
+
+        <Button
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            Margin="9,41,69,389"
+            Click="btnRemoveSelectedPlayers_Click"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+            ToolTip="{DynamicResource ct_delete_team}">
+            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Delete" />
+        </Button>
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Margin="544,149,73,217"
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+            Text="{DynamicResource ct_prizes_title}" />
+        <ListBox
+            x:Name="lstPrizes"
+            Grid.Row="2"
+            Width="178"
+            Height="137"
+            Margin="544,175,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+            BorderThickness="2"
+            RenderTransformOrigin="0.5,0.5" />
+
+
+
+        <Button
+            Grid.Row="2"
+            Width="288"
+            Height="60"
+            Margin="292,330,0,0"
+            HorizontalAlignment="Left"
+            Click="btnCreateTournament_Click"
+            Content="{DynamicResource ct_create_tournament}"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
 
 
     </Grid>

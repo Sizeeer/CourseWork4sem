@@ -1,48 +1,132 @@
-﻿<Window x:Class="WPFUI.TournamentViewer"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Ведение турнира" Height="450" Width="600" ResizeMode="NoResize" Background="#9878F1" WindowStartupLocation="CenterScreen">
+﻿<Window
+    x:Class="WPFUI.TournamentViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Ведение турнира"
+    Width="700"
+    Height="600"
+    Background="{DynamicResource MaterialDesignBackground}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    ResizeMode="NoResize"
+    TextElement.FontSize="16"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <Grid>
-        <Label HorizontalAlignment="Left" Margin="26,29,0,0" VerticalAlignment="Top">
-            <Label FontWeight="Bold" Foreground="#fff" Content="Турнир:" Height="40" Width="160" RenderTransformOrigin="0.477,0.485" FontSize="25"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="lbTournamentName"
+            Grid.ColumnSpan="2"
+            Height="40"
+            Margin="1,26,-126,0"
+            VerticalAlignment="Top"
+            FontWeight="Bold"
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Text="Название"
+            TextAlignment="Center" />
+        <Label
+            Width="50"
+            Height="30"
+            Margin="35,87,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Label
+                Content="Раунд"
+                FontWeight="Medium"
+                Foreground="#fff" />
         </Label>
-        <Label HorizontalAlignment="Left" Margin="130,29,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.079,-0.399">
-            <Label Foreground="#fff" Name="lbTournamentName" Content="Название" Height="40" Width="Auto" RenderTransformOrigin="0.477,0.485" FontSize="25"/>
-        </Label>
-        <Label HorizontalAlignment="Left" Margin="35,87,0,0" VerticalAlignment="Top">
-            <Label FontWeight="Medium" Foreground="#fff" Content="Раунд"/>
-        </Label>
-        <ComboBox SelectedIndex="0" Name="cbRounds" HorizontalAlignment="Left" Margin="94,94,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbRounds_SelectedIndexChanged" />
-        <CheckBox IsChecked="True" FontWeight="Medium" Foreground="#fff" Name="ckbUnplayedOnly" Content="Только несыгранные" HorizontalAlignment="Left" Margin="94,130,0,0" VerticalAlignment="Top" Click="ckbUnplayedOnly_CheckedChanged" />
-        <ListBox Name="lstMatchup" HorizontalAlignment="Left" Height="224" Margin="35,160,0,0" VerticalAlignment="Top" Width="261" SelectionChanged="lstMatchup_SelectedIndexChanged">
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-        <Label FontWeight="Medium" Foreground="#fff" Name="lbteamOneName" Content="Команда 1" Margin="366,159,173.6,230" Width="200" />
-        <Label FontWeight="Medium" Foreground="#fff" Name="teamOneScoreLabel" Content="Очки" Margin="366,190,173.6,193"/>
-        <Label FontWeight="Medium" Foreground="#fff" Name="lbteamTwoName" Content="Команда 2" Margin="366,252,168.6,137" Width="200" />
-        <Label FontWeight="Medium" Foreground="#fff" Name="teamTwoScoreLabel" Content="Очки" Margin="366,283,168.6,97"/>
-        <TextBox Name="txtTeamOneScore" HorizontalAlignment="Left" Height="23" Margin="426,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <TextBox Name="txtTeamTwoScore" HorizontalAlignment="Left" Height="23" Margin="426,283,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Button Foreground="#fff" Background="#F35858" Name="btnScore" Content="Подтвердить" HorizontalAlignment="Left" Margin="439,338,0,0" VerticalAlignment="Top" Padding="10" Click="btnScore_Click" />
+
+        <ComboBox
+            x:Name="cbRounds"
+            Width="200"
+            Height="54"
+            Margin="26,105,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            VerticalContentAlignment="Center"
+            materialDesign:HintAssist.Hint="{DynamicResource v_round}"
+            SelectedIndex="0"
+            SelectionChanged="cbRounds_SelectedIndexChanged"
+            Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+        <CheckBox
+            Name="ckbUnplayedOnly"
+            Width="202"
+            Height="18"
+            Margin="24,168,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="ckbUnplayedOnly_CheckedChanged"
+            Content="{DynamicResource v_checkbox_text}"
+            FontWeight="Medium"
+            IsChecked="True" />
+
+        <ListBox
+            Name="lstMatchup"
+            Height="261"
+            Margin="26,212,4,0"
+            VerticalAlignment="Top"
+            BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+            BorderThickness="2"
+            SelectionChanged="lstMatchup_SelectedIndexChanged" />
+        <Label
+            Name="lbteamOneName"
+            Grid.Column="1"
+            Width="179"
+            Margin="41,214,0,287"
+            HorizontalAlignment="Left"
+            Content="Команда 1" />
+        <TextBox
+            x:Name="txtTeamOneScore"
+            Grid.Column="1"
+            Width="205"
+            Height="50"
+            Margin="42,247,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource v_score}"
+            Cursor="Arrow"
+            PreviewTextInput="NumberValidationTextBox"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+        <Label
+            Name="lbteamTwoName"
+            Grid.Column="1"
+            Width="179"
+            Margin="39,307,0,194"
+            HorizontalAlignment="Left"
+            Content="Команда 2" />
+        <TextBox
+            x:Name="txtTeamTwoScore"
+            Grid.Column="1"
+            Width="205"
+            Height="50"
+            Margin="42,342,25,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="{DynamicResource v_score}"
+            PreviewTextInput="NumberValidationTextBox"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+        <Button
+            Name="btnScore"
+            Grid.Column="1"
+            Width="160"
+            Height="60"
+            Margin="63,413,0,52"
+            HorizontalAlignment="Left"
+            Click="btnScore_Click"
+            Content="{DynamicResource v_accept}"
+            Cursor="Hand"
+            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
     </Grid>
 </Window>
 

@@ -66,7 +66,7 @@ namespace WPFUI
         private List<string> ValidateForm()
         {
 	        List<string> erorrMessages = new List<string>();
-        	int placeNumber = 0;
+        	int placeNumber;
 
         	bool placeNumberValidNumber = int.TryParse(txtPlaceNumber.Text, out placeNumber);
 
@@ -80,8 +80,8 @@ namespace WPFUI
 	            erorrMessages.Add("Имя места не может быть пустым");
         	}
 
-        	decimal prizeAmount = 0;
-        	int prizePercentage = 0;
+        	decimal prizeAmount;
+        	int prizePercentage;
 
         	bool prizeAmountValid = decimal.TryParse(txtPrizeAmount.Text, out prizeAmount);
         	bool prizePercentageValid = int.TryParse(txtPrizePercentage.Text, out prizePercentage);

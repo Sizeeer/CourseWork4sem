@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
@@ -43,6 +45,12 @@ namespace WPFUI
 			lstPrizes.DisplayMemberPath = "PlaceName";
 		}
 
+		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+		{
+			Regex regex = new Regex("[^0-9]+");
+			e.Handled = regex.IsMatch(e.Text);
+		}
+
 		private void btnAddTeam_Click(object sender, EventArgs e)
 		{
 			TeamModel t = (TeamModel)cbSelectTeam.SelectedItem;
@@ -73,7 +81,7 @@ namespace WPFUI
 			WireUpLists();
 		}
 
-		private void linklbCreateNewTeam_LinkClicked(object sender, EventArgs e)
+		private void btnCreateTeam_Click(object sender, EventArgs e)
 		{
 			CreateTeam frm = new CreateTeam(this);
 			frm.Show();
@@ -161,7 +169,7 @@ namespace WPFUI
 			}
 		}
 
-        private void linklbCreateNewTeam_LinkClicked(object sender, RoutedEventArgs e)
+        private void selectAllTeams_Click(object sender, RoutedEventArgs e)
         {
 			foreach(var item in cbSelectTeam.Items)
             {
@@ -173,5 +181,7 @@ namespace WPFUI
 			availableTeams.Clear();
 			WireUpLists();
 		}
-	}
+
+        
+    }
 }
