@@ -4,49 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Создать турнир" Height="526" Width="600" ResizeMode="NoResize" Background="#9878F1" WindowStartupLocation="CenterScreen">
-    <Grid Margin="0,0,3.2,-0.2">
-        <Label FontWeight="Bold" Foreground="#fff" Content="Создать турнир" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="29,28,0,418" HorizontalAlignment="Left" Width="Auto"/>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Название турнира" Margin="35,86,0,0" HorizontalAlignment="Left" Width="166" Height="37" VerticalAlignment="Top"/>
-        <TextBox Name="txtTournamentName" HorizontalAlignment="Left" Height="23" Margin="42,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Взнос" Margin="41,174,0,290" HorizontalAlignment="Left" Width="Auto"/>
-        <TextBox Name="txtEntryFee" HorizontalAlignment="Left" Height="23" Margin="90,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Выберете команду" Margin="41,271,0,188" HorizontalAlignment="Left" Width="121"/>
-        <ComboBox Name="cbSelectTeam" HorizontalAlignment="Left" Margin="41,301,0,0" VerticalAlignment="Top" Width="158"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Добавить команду" HorizontalAlignment="Left"  Margin="60,327,0,0" Padding="5" VerticalAlignment="Top" Width="Auto" Click="btnAddTeam_Click"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Создать команду" HorizontalAlignment="Left" Margin="65,360,0,0" Padding="5" VerticalAlignment="Top" Width="Auto" Click="linklbCreateNewTeam_LinkClicked"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Создать приз" HorizontalAlignment="Left" Margin="460,280,0,0" VerticalAlignment="Top" Width="106" Click="btnCreatePrize_Click" Height="47"/>
-        <ListBox Name="lstTournamentTeams" HorizontalAlignment="Left" Height="121" Margin="264,116,0,0" VerticalAlignment="Top" Width="178">
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </ListBox.Resources>
+        Title="Создать турнир" Height="626" Width="800" ResizeMode="NoResize" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}" WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="37.002"/>
+            <RowDefinition Height="280*"/>
+            <RowDefinition Height="293*"/>
+        </Grid.RowDefinitions>
+
+        <Label FontWeight="Bold" Content="Создать турнир" RenderTransformOrigin="0.477,0.485" FontSize="52" Margin="24,0,0,138" HorizontalAlignment="Left" Width="406" Grid.RowSpan="3"/>
+        <Label FontWeight="Medium" Content="Название турнира" Margin="35,49,0,0" HorizontalAlignment="Left" Width="166" Height="37" VerticalAlignment="Top" Grid.Row="2"/>
+        <TextBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="txtTournamentName" Margin="35,79,0,0" Height="47" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" Grid.Row="2" />
+
+        <Label FontWeight="Medium" Content="Взнос" Margin="41,137,0,174" HorizontalAlignment="Left" Width="41" Grid.Row="2" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtEntryFee" HorizontalAlignment="Left" Height="23" Margin="90,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Row="2"/>
+        <Label FontWeight="Medium" Content="Выберете команду" Margin="41,234,0,72" HorizontalAlignment="Left" Width="121" Grid.Row="2" Grid.RowSpan="2"/>
+        <ComboBox
+             BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2"
+     x:Name="cbSelectTeam"
+    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+    materialDesign:HintAssist.Hint="Выбрать"
+    ItemsSource="{Binding ShortStringList}" Margin="35,7,541,236" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Grid.Row="3" Height="50" />
+
+        <Button Click="btnAddTeam_Click" Background="#F35858" HorizontalAlignment="Left" Margin="269,13,0,0" Padding="5" VerticalAlignment="Top" Width="26" Height="25" Grid.Row="3">
+            <materialDesign:PackIcon Kind="PlusCircle"  HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        </Button>
+
+        <Button Background="#F35858" HorizontalAlignment="Left" Margin="269,266,0,0" Padding="5" VerticalAlignment="Top" Width="26" Click="linklbCreateNewTeam_LinkClicked" Height="24" Grid.Row="2" Grid.RowSpan="2">
+            <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Button>
+        <Button Background="#F35858" HorizontalAlignment="Left"  Padding="5" VerticalAlignment="Top" Width="41" Click="btnCreatePrize_Click" Height="37" Grid.Row="2" Margin="710,268,0,0" Grid.RowSpan="2">
+            <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="25" />
+        </Button>
+        <Button  Background="#F35858" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="49"  Click="btnRemoveSelectedPrizes_Click" Grid.Row="3" Margin="701,39,0,0">
+            <materialDesign:PackIcon Kind="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Height="29" Width="28" >
+                <materialDesign:PackIcon.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </materialDesign:PackIcon.RenderTransform>
+            </materialDesign:PackIcon>
+        </Button>
+        <ListBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="lstTournamentTeams" HorizontalAlignment="Left" Height="191" Margin="483,47,0,0" VerticalAlignment="Top" Width="178" Grid.Row="2"></ListBox>
+
+        <Label FontWeight="Medium" Foreground="#fff" Content="Команды" Margin="0,47,0,0" HorizontalAlignment="Center" Width="166" Height="32" VerticalAlignment="Top" Grid.Row="2"/>
+        <Button  Background="#F35858" HorizontalAlignment="Left" Margin="686,53,0,0" VerticalAlignment="Top" Width="50" Height="49" Click="btnRemoveSelectedPlayers_Click" Grid.Row="2">
+            <materialDesign:PackIcon Kind="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Height="29" Width="28" >
+                <materialDesign:PackIcon.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </materialDesign:PackIcon.RenderTransform>
+            </materialDesign:PackIcon>
+        </Button>
+        <Label FontWeight="Medium" Foreground="#fff" Content="Призы" Margin="0,210,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Center" Width="166" Grid.Row="2"/>
+        <ListBox BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="2" x:Name="lstPrizes" HorizontalAlignment="Left" Height="137" VerticalAlignment="Top" Margin="483,266,0,0" RenderTransformOrigin="0.5,0.5" Width="182" Grid.Row="2" Grid.RowSpan="2">
         </ListBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Команды" Margin="264,84,0,0" HorizontalAlignment="Left" Width="166" Height="32" VerticalAlignment="Top"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Удалить выбранную" HorizontalAlignment="Left" Margin="460,162,0,0" VerticalAlignment="Top" Width="Auto" Height="49" Click="btnRemoveSelectedPlayers_Click"/>
-        <ListBox Name="lstPrizes" HorizontalAlignment="Left" Height="121" Margin="264,275,0,0" VerticalAlignment="Top" Width="178">
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Призы" Margin="264,247,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="166"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Удалить выбранный" Padding="5" HorizontalAlignment="Left" Margin="450,347,0,0" VerticalAlignment="Top" Width="Auto" Height="49" Click="btnRemoveSelectedPrizes_Click"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Создать турнир" HorizontalAlignment="Left" Margin="197,424,0,0" VerticalAlignment="Top" Width="170" Height="46" Click="btnCreateTournament_Click"/>
+
+        <Button Foreground="#fff" Background="#F35858" Content="Создать турнир" HorizontalAlignment="Left" Margin="303,193,0,0" VerticalAlignment="Top" Width="170" Height="46" Click="btnCreateTournament_Click" Grid.Row="3"/>
+
 
     </Grid>
 </Window>

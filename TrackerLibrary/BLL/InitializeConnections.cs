@@ -6,7 +6,7 @@ namespace TrackerLibrary.BLL
 	{
 		public void InitializeConnection()
 		{
-			GlobalConfig.InitializeConnection(DatabaseType.Sql);
+			GlobalConfig.InitializeConnection();
 		}
 	}
 }

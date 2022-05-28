@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TrackerLibrary.DTO.MatchupEntryModel">
+    <Position X="1.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DTO.MatchupModel">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DTO.PersonModel">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DTO.PrizeModel">
+    <Position X="1.25" Y="3.25" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DTO.TeamModel">
+    <Position X="3.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DTO.TournamentModel">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DAL.GlobalConfig">
+    <Position X="1.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.DAL.SqlConnector" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.CreatePrizeBLL">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.CreateTeamFormHandling">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.EmailLogic">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.InitializeConnections">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.TournamentDashboardFormHandling">
+    <Position X="12.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.TournamentLogic">
+    <Position X="4.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.CreateTournamentFormHandling">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TrackerLibrary.BLL.TournamentViewerFormHandling">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="12.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="WPFUI.CreatePrize" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAEAAAAAAAAIABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CreatePrize.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WPFUI.CreateTeam" BaseTypeListCollapsed="true">
+    <Position X="12" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAACAAAgAABBAACIAwAAAACACAAAAAAgAAAAAA=</HashCode>
+      <FileName>CreateTeam.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WPFUI.CreateTournament" BaseTypeListCollapsed="true">
+    <Position X="13.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIgAEAAEAAAABAQAAAQAQARAIAAAgAAAAAAAAAACAAA=</HashCode>
+      <FileName>CreateTournament.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WPFUI.CreateTournamentDashboard" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAUMAAQAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>CreateTournamentDashboard.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WPFUI.TournamentViewer" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAEAAAQIAARAACAAAAIAaAAAAAAAAAAgAAAAIIAQA=</HashCode>
+      <FileName>TournamentViewer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Window" Collapsed="true">
+    <Position X="12" Y="12.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

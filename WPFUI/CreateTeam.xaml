@@ -8,7 +8,12 @@
     <Grid Margin="0,0,-0.4,0">
         <Label FontWeight="Bold" Foreground="#fff" Content="Создать команду" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="28,28,0,0" HorizontalAlignment="Left" Width="242" Height="58" VerticalAlignment="Top"/>
         <Label FontWeight="Medium" Foreground="#fff" Content="Название команды" Margin="35,86,0,0" HorizontalAlignment="Left" Width="Auto" Height="37" VerticalAlignment="Top"/>
-        <TextBox Name="txtTeamName" HorizontalAlignment="Left" Height="23" Margin="42,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196"/>
+        <TextBox Name="txtTeamName" HorizontalAlignment="Left" Height="23" Margin="42,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196">
+            <TextBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </TextBox.Resources></TextBox>
         <Label FontWeight="Medium" Foreground="#fff" Content="Выбрать игрока" Margin="35,153,0,0" HorizontalAlignment="Left" Width="Auto" Height="28" VerticalAlignment="Top"/>
         <ComboBox Name="cbSelectTeamMember" HorizontalAlignment="Left" Margin="42,181,0,0" VerticalAlignment="Top" Width="196"/>
         <GroupBox FontWeight="Medium" Foreground="#fff" Header="Добавить нового игрока" HorizontalAlignment="Left" Height="215" Margin="41,257,0,0" VerticalAlignment="Top" Width="197"/>

@@ -4,25 +4,11 @@ namespace TrackerLibrary.DAL
 {
 	public static class GlobalConfig
 	{
-		public const string PrizesFile = "PrizeModels.csv";
-		public const string PeopleFile = "PeopleModels.csv";
-		public const string TeamFile = "TeamModels.csv";
-		public const string TournamentFile = "TournamentModels.csv";
-		public const string MatchupFile = "Matchups.csv";
-		public const string MatchupEntryFile = "MatchupEntry.csv";
 		public static IDataConnection Connection { get; private set; }
-		public static void InitializeConnection(DatabaseType db)
+		public static void InitializeConnection()
 		{
-			if(db == DatabaseType.Sql)
-			{
-				SqlConnector sql = new SqlConnector();
-				Connection = sql;
-			}
-			else if(db == DatabaseType.TextFiles)
-			{
-				TextConnector text = new TextConnector();
-				Connection = text;
-			}
+			SqlConnector sql = new SqlConnector();
+			Connection = sql;
 		}
 		public static string CnnString(string name)
 		{

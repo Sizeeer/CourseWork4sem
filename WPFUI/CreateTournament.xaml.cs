@@ -160,5 +160,18 @@ namespace WPFUI
 				MessageBox.Show(String.Join("\n", errorMessages));
 			}
 		}
-    }
+
+        private void linklbCreateNewTeam_LinkClicked(object sender, RoutedEventArgs e)
+        {
+			foreach(var item in cbSelectTeam.Items)
+            {
+				if (item != null)
+				{
+					selectedTeams.Add(item as TeamModel);
+				}
+			}
+			availableTeams.Clear();
+			WireUpLists();
+		}
+	}
 }

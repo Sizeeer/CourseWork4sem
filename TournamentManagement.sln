@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIL", "UIL\UIL.csproj", "{1E5789E7-F8D1-4D5A-A482-C9D35D115430}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackerLibrary", "TrackerLibrary\TrackerLibrary.csproj", "{05707E59-F9AA-4AD5-A32F-0A0D8495EFE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFUI", "WPFUI\WPFUI.csproj", "{7E42BC15-499B-4E6C-84D1-E3D19EA73C5C}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E5789E7-F8D1-4D5A-A482-C9D35D115430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E5789E7-F8D1-4D5A-A482-C9D35D115430}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E5789E7-F8D1-4D5A-A482-C9D35D115430}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E5789E7-F8D1-4D5A-A482-C9D35D115430}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05707E59-F9AA-4AD5-A32F-0A0D8495EFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{05707E59-F9AA-4AD5-A32F-0A0D8495EFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05707E59-F9AA-4AD5-A32F-0A0D8495EFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -6,6 +6,10 @@ namespace TrackerLibrary.BLL
 {
 	public static class EmailLogic
 	{
+		/// <param name="to"></param>
+		/// <param name="bcc">Получатель скрытой копии</param>
+		/// <param name="subject"></param>
+		/// <param name="body"></param>
 		public static void SendEmail(List<string> to, List<string> bcc, string subject, string body)
 		{
 			MailAddress fromMailAddress = new MailAddress(GlobalConfig.AppKeyLookup("senderEmail"), GlobalConfig.AppKeyLookup("senderDisplayName"));

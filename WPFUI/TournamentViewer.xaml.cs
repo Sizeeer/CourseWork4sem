@@ -184,7 +184,7 @@ namespace WPFUI
 			List<string> errorMessages = ValidateData();
 			if( errorMessages.Count == 0)
 			{
-				MatchupModel m = (MatchupModel)lstMatchup.SelectedItem;
+				MatchupModel m = lstMatchup.SelectedItem != null ? (MatchupModel)lstMatchup.SelectedItem : (MatchupModel)lstMatchup.Items.GetItemAt(0);
 				double teamOneScore;
 				double teamTwoScore;
 				for (int i = 0; i < m.Entries.Count; i++)

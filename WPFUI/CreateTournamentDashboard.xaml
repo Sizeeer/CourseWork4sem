@@ -4,14 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Дашборд" Height="370" Width="330" ResizeMode="NoResize" Background="#9878F1" WindowStartupLocation="CenterScreen">
+        Title="Дашборд" Height="370" Width="330" ResizeMode="NoResize" Background="#9878F1" WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        <Label FontWeight="Bold" Foreground="#fff" Content="Tournament dashboard" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="12,28,-2,0" HorizontalAlignment="Left" Width="286" Height="58" VerticalAlignment="Top"/>
-        <Label FontWeight="Medium" Foreground="#fff" Content="Загрузите прошедший турнир" Margin="63,93,0,0" HorizontalAlignment="Left" Width="200" Height="28" VerticalAlignment="Top"/>
-        <ComboBox Name="cbLoadExistingTournament" HorizontalAlignment="Left" Margin="57,121,0,0" VerticalAlignment="Top" Width="196"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Загрузить" HorizontalAlignment="Left" Margin="118,169,0,0" VerticalAlignment="Top" Width="74" Click="btnLoadTournament_Click" Padding="5" />
-        <Button Foreground="#fff" Background="#F35858" Content="Создать турнир" HorizontalAlignment="Left" Margin="83,209,0,0" VerticalAlignment="Top" Width="144" Height="54" Click="btnCreateTournament_Click"/>
-        <Button Foreground="#fff" Background="#F35858" Content="Удалить турнир" HorizontalAlignment="Left" Margin="83,270,0,0" VerticalAlignment="Top" Width="144" Height="54" Click="btnDeleteTournament_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="293*"/>
+        </Grid.ColumnDefinitions>
+        <Label FontWeight="Bold" Foreground="#fff" Content="Tournament dashboard" RenderTransformOrigin="0.477,0.485" FontSize="25" Margin="22,49,0,0" HorizontalAlignment="Left" Width="286" Height="58" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+        <Label FontWeight="Medium" Foreground="#fff" Content="Загрузите прошедший турнир" Margin="28,93,0,0" HorizontalAlignment="Left" Width="200" Height="28" VerticalAlignment="Top" Grid.Column="2"/>
+        <ComboBox Name="cbLoadExistingTournament" HorizontalAlignment="Left" Margin="0,121,0,0" VerticalAlignment="Top" Width="248" Grid.ColumnSpan="2" Grid.Column="1" Height="22"/>
+        <Button Foreground="#fff" Background="#F35858" Content="Загрузить" HorizontalAlignment="Left" Margin="0,158,0,0" VerticalAlignment="Top" Width="98" Click="btnLoadTournament_Click" Padding="5" Height="32" Grid.ColumnSpan="2" Grid.Column="1" />
+        <Button Foreground="#fff" Background="#F35858" Content="Создать турнир" HorizontalAlignment="Left" Margin="56,206,0,0" VerticalAlignment="Top" Width="144" Height="54" Click="btnCreateTournament_Click" Grid.Column="2"/>
+        <Button Foreground="#fff" Background="#F35858" Content="Удалить турнир" HorizontalAlignment="Left" Margin="148,156,0,0" VerticalAlignment="Top" Width="100" Height="32" Click="btnDeleteTournament_Click" Grid.Column="2"/>
     </Grid>
 </Window>
 

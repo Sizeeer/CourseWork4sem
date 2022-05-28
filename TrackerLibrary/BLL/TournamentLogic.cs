@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Xml.XPath;
 using TrackerLibrary.DAL;
 using TrackerLibrary.DTO;
 
@@ -19,62 +20,86 @@ namespace TrackerLibrary.BLL
 			model.Rounds.Add(CreateFirstRound(byes, randomizedTeams));
 
 			CreateOtherRounds(model, rounds);
+        }
 
-			UpdateTournamentResults(model);
+		private static List<MatchupModel> CreateFirstRound(int byes, List<TeamModel> teams)
+		{
+			List<MatchupModel> output = new List<MatchupModel>();
+			MatchupModel curr = new MatchupModel();
+
+			foreach (TeamModel team in teams)
+			{
+				curr.Entries.Add(new MatchupEntryModel { TeamCompeting = team });
+
+				if (byes > 0 || curr.Entries.Count > 1)
+				{
+					curr.MatchupRound = 1;
+					output.Add(curr);
+					curr = new MatchupModel();
+
+					if (byes > 0)
+					{
+						byes--;
+					}
+				}
+			}
+
+			return output;
 		}
 
 		private static void CreateOtherRounds(TournamentModel model, int rounds)
 		{
 			int round = 2;
 			List<MatchupModel> previousRound = model.Rounds[0];
-			List<MatchupModel> currentRound = new List<MatchupModel>();
-			MatchupModel currentMatchup = new MatchupModel();
+			List<MatchupModel> currRound = new List<MatchupModel>();
+			MatchupModel currMatchup = new MatchupModel();
 
-			while(round <= rounds)
+			while (round <= rounds)
 			{
 				foreach (MatchupModel match in previousRound)
 				{
-					currentMatchup.Entries.Add(new MatchupEntryModel { ParentMatchup = match });
-					
-					if(currentMatchup.Entries.Count > 1 )
+					currMatchup.Entries.Add(new MatchupEntryModel { ParentMatchup = match });
+
+					if (currMatchup.Entries.Count > 1)
 					{
-						currentMatchup.MatchupRound = round;
-						currentRound.Add(currentMatchup);
-						currentMatchup = new MatchupModel();
+						currMatchup.MatchupRound = round;
+						currRound.Add(currMatchup);
+						currMatchup = new MatchupModel();
 					}
 				}
-				model.Rounds.Add(currentRound);
-				previousRound = currentRound;
 
-				currentRound = new List<MatchupModel>();
+				model.Rounds.Add(currRound);
+				previousRound = currRound;
+
+				currRound = new List<MatchupModel>();
 				round += 1;
 			}
 		}
 		public static void UpdateTournamentResults(TournamentModel model)
 		{
-			int startingMatchup = model.CheckCurrentRound();
-			
+			int startingRound = model.CheckCurrentRound();
 			List<MatchupModel> toScore = new List<MatchupModel>();
-			
+
 			foreach (List<MatchupModel> round in model.Rounds)
 			{
 				foreach (MatchupModel rm in round)
 				{
-					if(rm.Winner == null && (rm.Entries.Any(x => x.Score != 0) || rm.Entries.Count == 1))
+					if (rm.Winner == null && (rm.Entries.Any(x => x.Score != 0) || rm.Entries.Count == 1))
 					{
 						toScore.Add(rm);
 					}
 				}
 			}
-			
+
 			MarkWinnerInMatchups(toScore);
+
 			AdvanceWinners(toScore, model);
 
 			toScore.ForEach(x => GlobalConfig.Connection.UpdateMatchup(x));
 			
 			int endingRound = model.CheckCurrentRound();
 
-			if(endingRound > startingMatchup)
+			if (endingRound > startingRound)
 			{
 				model.AlertUsersToNewRound();
 			}
@@ -283,44 +308,24 @@ namespace TrackerLibrary.BLL
 				}
 			}
 		}
-		private static List<MatchupModel> CreateFirstRound(int byes, List<TeamModel>teams)
-		{
-			List<MatchupModel> output = new List<MatchupModel>();
-			MatchupModel curr = new MatchupModel();
-
-			foreach(TeamModel team in teams)
-			{
-				curr.Entries.Add(new MatchupEntryModel { TeamCompeting = team });
-				if(byes > 0 || curr.Entries.Count > 1)
-				{
-					curr.MatchupRound = 1;
-					output.Add(curr);
-					curr = new MatchupModel();
-
-					if(byes > 0)
-					{
-						byes -= 1;
-					}
-				}
-			}
-			return output;
-		}
 		private static int NumberOfByes(int rounds, int numberOfTeams)
 		{
 			int output;
 			int totalTeams = 1;
 
-			for(int i = 1; i <= rounds; i++)
+			for (int i = 1; i <= rounds; i++)
 			{
 				totalTeams *= 2;
 			}
+
 			output = totalTeams - numberOfTeams;
 			return output;
 		}
 		private static int FindNumberOfRounds(int teamCount)
 		{
-			int output = 1, val = 2;
-			
+			int output = 1;
+			int val = 2;
+
 			while (val < teamCount)
 			{
 				output += 1;

@@ -1,11 +1,8 @@
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\WPFUI.exe
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\WPFUI.pdb
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\TrackerLibrary.dll
-D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\UIL.exe
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\Dapper.dll
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\TrackerLibrary.pdb
-D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\UIL.pdb
-D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\UIL.exe.config
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\Dapper.xml
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.csproj.AssemblyReference.cache
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\CreatePrize.g.cs
@@ -28,4 +25,10 @@ D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.csproj.CopyC
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.exe
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.pdb
 D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\WPFUI.exe.config
-D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI_Content.g.cs
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI.csproj.SuggestedBindingRedirects.cache
+D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignColors.dll
+D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignColors.pdb
+D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\App.baml
