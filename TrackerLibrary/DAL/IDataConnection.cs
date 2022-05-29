@@ -15,6 +15,8 @@ namespace TrackerLibrary.DAL
 		void UpdateMatchup(MatchupModel model);
 		List<TeamModel> Get_All_Teams();
 		List<PersonModel> Get_All_Persons();
+
+		List<TeamRate> Get_Teams_Rates();
 		List<TournamentModel> Get_All_Tournaments();
 	}
 }

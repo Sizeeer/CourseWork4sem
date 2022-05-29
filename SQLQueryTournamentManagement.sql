@@ -159,6 +159,19 @@ FROM
   Teams
 END
 GO
+  CREATE PROCEDURE Get_Teams_Rates AS BEGIN
+SELECT
+  TOP 10 teamName as TeamName,
+  SUM(me.score) as Score
+FROM
+  Teams as t
+  INNER JOIN MatchupEntries as me ON me.teamCompetingID = t.id
+GROUP BY
+  TeamName
+ORDER BY
+  Score DESC
+END
+GO
   CREATE PROCEDURE PROC_selectTeamMembErs_GetByTeam @teamID INT AS BEGIN
 SET
   NOCOUNT ON;

@@ -48,6 +48,7 @@
     <Compile Include="BLL\CreateTournamentFormHandling.cs" />
     <Compile Include="BLL\EmailLogic.cs" />
     <Compile Include="BLL\InitializeConnections.cs" />
+    <Compile Include="BLL\RateHandling.cs" />
     <Compile Include="BLL\TournamentDashboardFormHandling.cs" />
     <Compile Include="BLL\TournamentLogic.cs" />
     <Compile Include="BLL\TournamentViewerFormHandling.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="DTO\PersonModel.cs" />
     <Compile Include="DTO\PrizeModel.cs" />
     <Compile Include="DTO\TeamModel.cs" />
+    <Compile Include="DTO\TeamRate.cs" />
     <Compile Include="DTO\TournamentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

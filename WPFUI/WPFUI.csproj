@@ -68,6 +68,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Rate.xaml.cs">
+      <DependentUpon>Rate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="TournamentViewer.xaml.cs">
       <DependentUpon>TournamentViewer.xaml</DependentUpon>
@@ -104,6 +107,10 @@
     <Compile Include="CreateTournamentDashboard.xaml.cs">
       <DependentUpon>CreateTournamentDashboard.xaml</DependentUpon>
     </Compile>
+    <Page Include="Rate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\lang.en-US.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

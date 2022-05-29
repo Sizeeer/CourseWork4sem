@@ -127,6 +127,17 @@
             Content="{DynamicResource v_accept}"
             Cursor="Hand"
             Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+
+        <materialDesign:DialogHost
+            Name="sleepDialog"
+            Grid.ColumnSpan="2"
+            Margin="0,0,-128,-59"
+            CloseOnClickAway="True"
+            IsOpen="True">
+            <materialDesign:DialogHost.DialogContent>
+                <Button>Hello</Button>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </Window>
 

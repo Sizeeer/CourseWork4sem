@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\University\CourseWork\TournamentManagement\WPFUI\App.xaml
-7774647283
+81371226039
 
-14185847742
+15604437390
 141640545396
-CreatePrize.xaml;CreateTeam.xaml;CreateTournament.xaml;CreateTournamentDashboard.xaml;Resources\lang.en-US.xaml;Resources\lang.ru-RU.xaml;TournamentViewer.xaml;
+CreatePrize.xaml;CreateTeam.xaml;CreateTournament.xaml;CreateTournamentDashboard.xaml;Rate.xaml;Resources\lang.en-US.xaml;Resources\lang.ru-RU.xaml;TournamentViewer.xaml;
 
-False
+True
 

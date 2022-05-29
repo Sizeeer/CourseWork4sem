@@ -8,6 +8,7 @@
     <v:String x:Key="m_menu_language">Language</v:String>
     <v:String x:Key="m_del_btn">Delete tournament</v:String>
     <v:String x:Key="m_create_btn">Create tournament</v:String>
+    <v:String x:Key="m_rate">Rate</v:String>
 
 
 

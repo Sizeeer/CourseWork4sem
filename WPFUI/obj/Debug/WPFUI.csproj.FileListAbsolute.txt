@@ -34,3 +34,6 @@ D:\University\CourseWork\TournamentManagement\WPFUI\bin\Debug\MaterialDesignThem
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\App.baml
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\Resources\lang.en-US.baml
 D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\Resources\lang.ru-RU.baml
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\Rate.g.cs
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\WPFUI_MarkupCompile.lref
+D:\University\CourseWork\TournamentManagement\WPFUI\obj\Debug\Rate.baml

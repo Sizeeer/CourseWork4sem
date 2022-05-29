@@ -111,5 +111,11 @@ namespace WPFUI
         {
             WireUpLists();
         }
+
+        private void menuRate_Click(object sender, RoutedEventArgs e)
+        {
+            Rate frm = new Rate();
+            frm.Show();
+        }
     }
 }

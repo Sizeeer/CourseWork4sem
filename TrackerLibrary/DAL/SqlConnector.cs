@@ -182,6 +182,18 @@ namespace TrackerLibrary.DAL
             return output;
         }
 
+        public List<TeamRate> Get_Teams_Rates()
+        {
+            List<TeamRate> output = new List<TeamRate>();
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                output = connection.Query<TeamRate>("Get_Teams_Rates").ToList();
+            }
+
+            return output;
+        }
+
         public List<TournamentModel> Get_All_Tournaments()
         {
             List<TournamentModel> output = new List<TournamentModel>();

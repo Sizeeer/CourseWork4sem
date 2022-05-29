@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -149,7 +150,8 @@ namespace WPFUI
 		}
 		private void lstMatchup_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
+			sleepDialog.IsOpen = true;
+			//LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
 		}
 		private void ckbUnplayedOnly_CheckedChanged(object sender, EventArgs e)
 		{
