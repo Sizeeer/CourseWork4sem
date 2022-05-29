@@ -70,6 +70,12 @@
     <v:String x:Key="v_checkbox_text">Only unplayed</v:String>
     <v:String x:Key="v_score">Score</v:String>
     <v:String x:Key="v_accept">Accept</v:String>
-
+    <v:String x:Key="v_team_1">Team 1</v:String>
+    <v:String x:Key="v_team_2">Team2</v:String>
+    <v:String x:Key="v_dialog_title">Are you ready?</v:String>
+    <v:String x:Key="v_start">Start</v:String>
+    <v:String x:Key="v_reset">Reset</v:String>
+    <v:String x:Key="v_pause">Pause</v:String>
+    <v:String x:Key="v_release">Release</v:String>
 
 </ResourceDictionary>

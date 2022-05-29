@@ -153,6 +153,38 @@ namespace TrackerLibrary.BLL
 
 			EmailLogic.SendEmail(to, subject, body.ToString());
 		}
+		private static void AlertPersonToMatchup(PersonModel p, string teamName, MatchupEntryModel competitor)
+		{
+			if (p.EmailAddress.Length == 0)
+			{
+				return;
+			}
+
+			string to;
+			string subject;
+			StringBuilder body = new StringBuilder();
+
+			if (competitor != null)
+			{
+				subject = $"Тебя ждет состязание с {competitor.TeamCompeting.TeamName}";
+
+				body.AppendLine("<h1> У тебя новое состязание </h1> ");
+				body.Append("<strong>Соперник: </strong>");
+				body.Append(competitor.TeamCompeting.TeamName);
+				body.AppendLine();
+				body.AppendLine();
+				body.AppendLine(" ~ Tournament Tracker");
+			}
+			else
+			{
+				subject = "К сожалению вы проиграли(";
+				body.AppendLine(" ~ Tournament Tracker ");
+			}
+
+			to = p.EmailAddress;
+
+			EmailLogic.SendEmail(to, subject, body.ToString());
+		}
 		private static int CheckCurrentRound(this TournamentModel model)
 		{
 			int output = 1;

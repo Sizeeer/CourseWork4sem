@@ -71,7 +71,6 @@
     <Compile Include="Rate.xaml.cs">
       <DependentUpon>Rate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="TournamentViewer.xaml.cs">
       <DependentUpon>TournamentViewer.xaml</DependentUpon>
     </Compile>

@@ -1,21 +1,44 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using TrackerLibrary.BLL;
 using TrackerLibrary.DTO;
 
 namespace WPFUI
 {
-    public partial class TournamentViewer : Window
-    {
-        public TournamentViewer(TournamentModel model, ITournamentRequester callingForm)
+    public partial class TournamentViewer : Window, INotifyPropertyChanged
+	{
+
+		private DateTime _startCountdown; // время запуска таймера
+		private TimeSpan _startTimeSpan = TimeSpan.FromSeconds(3); // начальное время до окончания таймера
+		private TimeSpan _timeToEnd; // время до окончания таймера. Меняется когда таймер запущен
+		private TimeSpan _interval = TimeSpan.FromMilliseconds(15); // интервал таймера
+		private DateTime _pauseTime;
+
+
+		private DispatcherTimer _timer;
+		public TournamentViewer(TournamentModel model, ITournamentRequester callingForm)
         {
-	        InitializeComponent();
+
+			_timer = new DispatcherTimer();
+			_timer.Interval = _interval;
+			_timer.Tick += new EventHandler(async (object s, EventArgs a) =>
+			{
+				var now = DateTime.Now;
+				var elapsed = now.Subtract(_startCountdown);
+				TimeToEnd = _startTimeSpan.Subtract(elapsed);
+			});
+
+			StopTimer();
+
+
+            InitializeComponent();
 
 	        this.tournament = model;
 	        this.callingForm = callingForm;
@@ -26,8 +49,102 @@ namespace WPFUI
 
 	        LoadRounds();
         }
-        
-        private TournamentModel tournament;
+
+
+		public TimeSpan TimeToEnd
+		{
+			get
+			{
+				return _timeToEnd;
+			}
+
+			set
+			{
+
+				_timeToEnd = value;
+                if (value.TotalMilliseconds <= 0)
+                {
+                    StopTimer();
+
+
+					txtTeamOneScore.IsEnabled = true;
+					txtTeamTwoScore.IsEnabled = true;
+					btnScore.IsEnabled = true;
+
+					LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
+					sleepDialog.IsOpen = false;
+
+				}
+
+                OnPropertyChanged("StringCountdown");
+			}
+		}
+
+		public string StringCountdown
+		{
+			get
+			{
+				var frmt = "mm\\:ss";
+
+				return _timeToEnd.ToString(frmt);
+			}
+		}
+
+		public bool TimerIsEnabled
+		{
+			get { return _timer.IsEnabled; }
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		public void OnPropertyChanged([CallerMemberName] string prop = "")
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(prop));
+		}
+
+		private void StopTimer()
+		{
+			if (TimerIsEnabled)
+				_timer.Stop();
+			TimeToEnd = _startTimeSpan;
+		}
+
+		private void StartTimer(DateTime sDate)
+		{
+			_startCountdown = sDate;
+			StopTimer();
+			_timer.Start();
+		}
+
+		private void PauseTimer()
+		{
+			_timer.Stop();
+			_pauseTime = DateTime.Now;
+		}
+
+		private void startTimer(object sender, RoutedEventArgs e)
+		{
+			StartTimer(DateTime.Now);
+		}
+
+		private void resetTimer(object sender, RoutedEventArgs e)
+		{
+			StopTimer();
+		}
+
+		private void pauseTimer(object sender, RoutedEventArgs e)
+		{
+			PauseTimer();
+		}
+		private void releaseTimer(object sender, RoutedEventArgs e)
+		{
+			var now = DateTime.Now;
+			var elapsed = now.Subtract(_pauseTime);
+			_startCountdown = _startCountdown.Add(elapsed);
+			_timer.Start();
+		}
+
+		private TournamentModel tournament;
         private ITournamentRequester callingForm;
 		BindingList<int> rounds = new BindingList<int>();
 		BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
@@ -40,8 +157,6 @@ namespace WPFUI
 		{
 			lbTournamentName.Text = tournament.TournamentName;
 			ckbUnplayedOnly.IsChecked = tournament.IsCompleted ? false : true;
-			txtTeamOneScore.IsEnabled = tournament.IsCompleted ? false : true;
-			txtTeamTwoScore.IsEnabled = tournament.IsCompleted ? false : true;
 		}
 		private void LoadRounds()
 		{
@@ -90,11 +205,6 @@ namespace WPFUI
 				}
 			}
 
-			if (selectedMatchups.Count > 0)
-			{
-				LoadMatchup(selectedMatchups.First()); 
-			}
-
 			DisplayMatchupInfo();
 		}
 		private void DisplayMatchupInfo()
@@ -107,6 +217,7 @@ namespace WPFUI
 			txtTeamTwoScore.Visibility = isVisible;
 			btnScore.Visibility = selectedMatchups.Count > 0 && !tournament.IsCompleted ? Visibility.Visible : Visibility.Hidden;
 			ckbUnplayedOnly.Visibility = tournament.IsCompleted ? Visibility.Hidden : Visibility.Visible;
+			sleepDialog.IsOpen = false;
 		}
 
 		private void LoadMatchup(MatchupModel m)
@@ -148,10 +259,73 @@ namespace WPFUI
 				}
 			}
 		}
+
+		private string matchupModalTeams;
+
+		public string MatchupModalTeams
+        {
+			set
+            {
+				matchupModalTeams = value;
+				OnPropertyChanged("MatchupModalTeams");
+			}
+
+			get
+            {
+				return matchupModalTeams;
+			}
+        }
+
 		private void lstMatchup_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			sleepDialog.IsOpen = true;
-			//LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
+            if (!tournament.IsCompleted)
+            {
+				
+				MatchupModel m = lstMatchup.SelectedItem as MatchupModel;
+				
+				if (m != null)
+				{
+					List<string> result = new List<string>();
+					for (int i = 0; i < m.Entries.Count; i++)
+					{
+						if (i == 0)
+						{
+							if (m.Entries[0].TeamCompeting != null)
+							{
+								result.Add(m.Entries[0].TeamCompeting.TeamName);
+							}
+							else
+							{
+								result.Add("Не найдено");
+							}
+						}
+
+						if (i == 1)
+						{
+							if (m.Entries[1].TeamCompeting != null)
+							{
+								result.Add(m.Entries[1].TeamCompeting.TeamName);
+							}
+							else
+							{
+								result.Add("Не найдено");
+							}
+						}
+					}
+
+					MatchupModalTeams = String.Join(" - ", result);
+				}
+
+				sleepDialog.IsOpen = true;
+				
+			}
+            else
+            {
+				LoadMatchup((MatchupModel)lstMatchup.SelectedItem);
+			}
+
+			
+
 		}
 		private void ckbUnplayedOnly_CheckedChanged(object sender, EventArgs e)
 		{
@@ -255,12 +429,22 @@ namespace WPFUI
 				LoadMatchupsList((int)cbRounds.SelectedItem);
 
 				UpdateMatchupModel(m);
+
+				txtTeamOneScore.IsEnabled = false;
+				txtTeamTwoScore.IsEnabled = false;
+				txtTeamOneScore.Text = "0";
+				txtTeamTwoScore.Text = "0";
+				lbteamOneName.Content = "Команда 1";
+				lbteamTwoName.Content = "Команда 2";
+				btnScore.IsEnabled = false;
+				
 			}
 			else
 			{
 				MessageBox.Show(String.Join("\n", errorMessages));
 			}
 		}
+
 		private void UpdateMatchupModel(MatchupModel m)
 		{
 			TournamentViewerFormHandling handling = new TournamentViewerFormHandling();
@@ -276,5 +460,11 @@ namespace WPFUI
 				LoadMatchupsList((int)cbRounds.SelectedItem);
 			}
 		}
-    }
+
+        private void sleepDialog_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+			lstMatchup.UnselectAll();
+
+		}
+	}
 }

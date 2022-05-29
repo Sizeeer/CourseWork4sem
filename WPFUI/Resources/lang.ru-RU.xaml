@@ -71,4 +71,12 @@
     <v:String x:Key="v_checkbox_text">Только несыгранные</v:String>
     <v:String x:Key="v_score">Очки</v:String>
     <v:String x:Key="v_accept">Подтвердить</v:String>
+    <v:String x:Key="v_team_1">Команда 1</v:String>
+    <v:String x:Key="v_team_2">Команда 2</v:String>
+    <v:String x:Key="v_dialog_title">Готовы начать отсчет?</v:String>
+    <v:String x:Key="v_start">Старт</v:String>
+    <v:String x:Key="v_reset">Сбросить</v:String>
+    <v:String x:Key="v_pause">Пауза</v:String>
+    <v:String x:Key="v_release">Продолжить</v:String>
+
 </ResourceDictionary>

@@ -9,6 +9,7 @@
     Width="700"
     Height="600"
     Background="{DynamicResource MaterialDesignBackground}"
+    DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     ResizeMode="NoResize"
     TextElement.FontSize="16"
@@ -61,7 +62,7 @@
         <CheckBox
             Name="ckbUnplayedOnly"
             Width="202"
-            Height="18"
+            Height="25"
             Margin="24,168,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -84,7 +85,7 @@
             Width="179"
             Margin="41,214,0,287"
             HorizontalAlignment="Left"
-            Content="Команда 1" />
+            Content="{DynamicResource v_team_1}" />
         <TextBox
             x:Name="txtTeamOneScore"
             Grid.Column="1"
@@ -95,6 +96,7 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="{DynamicResource v_score}"
             Cursor="Arrow"
+            IsEnabled="False"
             PreviewTextInput="NumberValidationTextBox"
             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
 
@@ -104,7 +106,7 @@
             Width="179"
             Margin="39,307,0,194"
             HorizontalAlignment="Left"
-            Content="Команда 2" />
+            Content="{DynamicResource v_team_2}" />
         <TextBox
             x:Name="txtTeamTwoScore"
             Grid.Column="1"
@@ -113,6 +115,7 @@
             Margin="42,342,25,0"
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="{DynamicResource v_score}"
+            IsEnabled="False"
             PreviewTextInput="NumberValidationTextBox"
             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
 
@@ -126,6 +129,7 @@
             Click="btnScore_Click"
             Content="{DynamicResource v_accept}"
             Cursor="Hand"
+            IsEnabled="False"
             Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
 
         <materialDesign:DialogHost
@@ -133,9 +137,66 @@
             Grid.ColumnSpan="2"
             Margin="0,0,-128,-59"
             CloseOnClickAway="True"
-            IsOpen="True">
+            DialogClosing="sleepDialog_DialogClosing">
             <materialDesign:DialogHost.DialogContent>
-                <Button>Hello</Button>
+                <StackPanel Margin="32">
+                    <TextBlock
+                        VerticalAlignment="Top"
+                        FontWeight="Bold"
+                        Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                        Text="{DynamicResource v_dialog_title}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Margin="0,16,0,16"
+                        VerticalAlignment="Top"
+                        FontWeight="Bold"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="{Binding MatchupModalTeams}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Name="tbTime"
+                        Margin="0,16,0,16"
+                        VerticalAlignment="Top"
+                        FontWeight="Bold"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="{Binding Path=StringCountdown, UpdateSourceTrigger=PropertyChanged}"
+                        TextAlignment="Center" />
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button
+                            Width="170"
+                            Height="40"
+                            Margin="5"
+                            Click="startTimer"
+                            Content="{DynamicResource v_start}"
+                            Cursor="Hand"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        <Button
+                            Width="170"
+                            Height="40"
+                            Margin="5"
+                            Click="resetTimer"
+                            Content="{DynamicResource v_reset}"
+                            Cursor="Hand"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+
+                        <Button
+                            Width="170"
+                            Height="40"
+                            Margin="5"
+                            Click="pauseTimer"
+                            Content="{DynamicResource v_pause}"
+                            Cursor="Hand"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        <Button
+                            Width="170"
+                            Height="40"
+                            Margin="5"
+                            Click="releaseTimer"
+                            Content="{DynamicResource v_release}"
+                            Cursor="Hand"
+                            Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    </StackPanel>
+                </StackPanel>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
     </Grid>
